@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>DEAD SECTOR — 2D Zombies</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="rotateOverlay"><div class="rotateCard"><div class="rotateIcon">↻</div><h2>ROTATE DEVICE</h2><p>DEAD SECTOR is built for landscape. Turn your phone sideways to play.</p></div></div>
+<canvas id="game"></canvas>
+<div class="ui">
+  <div id="hud">
+    <div class="hudTop">
+      <div class="pill"><div class="label">Wave</div><div id="waveNum" class="bigNum">1</div></div>
+      <div class="pill" style="text-align:right"><div class="label">Score</div><div id="scoreNum" class="bigNum score">0</div><div id="zombiesLeft" class="small" style="margin-top:4px">0 hostiles</div></div>
+    </div>
+    <div class="hudBottom">
+      <div class="healthWrap">
+        <div class="label">Health <span id="hpText">100 / 100</span></div><div class="bar"><div id="hpFill" class="fill"></div></div>
+        <div class="label" style="margin-top:7px">Armor <span id="armorText">0 / 100</span></div><div class="bar"><div id="armorFill" class="fill armorFill" style="width:0%"></div></div>
+      </div>
+      <div class="pill weaponBox"><div id="weaponName" class="weaponName">M9 Sidearm</div><div id="ammoText" class="ammo">12 <span>/ 96</span></div><div id="grenadeText" class="grenadeText">Grenades: 1</div></div>
+    </div>
+    <div id="interaction"></div><div id="toast"></div><div id="damageVignette"></div><div id="crosshair"></div>
+    <div id="mobileControls">
+      <button id="mobilePauseBtn" aria-label="Pause">Ⅱ</button>
+      <div id="moveStick" class="stickZone"><div class="stickKnob"></div></div>
+      <div id="aimStick" class="stickZone"><div class="stickKnob"></div></div>
+      <div class="touchActions">
+        <button class="touchBtn" id="touchReload">RELOAD</button><button class="touchBtn" id="touchGrenade">GRENADE</button>
+        <button class="touchBtn big" id="touchInteract">USE / BUY</button>
+        <button class="touchBtn big" id="touchWeapon">SWITCH WEAPON</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu" class="screen">
+    <div class="panel">
+      <h1 class="title">DEAD <span>SECTOR</span></h1><div class="subtitle">Containment Protocol // Top-down Survival</div>
+      <div class="menuGrid">
+        <div class="card">
+          <h3>Deployment zone</h3><div id="mapList" class="stack"></div>
+          <div class="row" style="margin-top:16px"><button id="startBtn" type="button" class="primary" style="flex:1" onclick="window.DeadSectorStart && window.DeadSectorStart(event)">START</button><button id="howBtn">HOW TO PLAY</button></div>
+        </div>
+        <div class="card">
+          <h3>Mission briefing</h3>
+          <p class="small">Survive escalating infected waves, repair barricades, scavenge supplies, buy weapons from wall crates, and push through increasingly hostile sectors. Every fifth wave contains an elite threat.</p>
+          <p class="small"><b>Persistent unlocks:</b> higher sectors unlock by surviving previous zones. Best wave and high score are stored on this device.</p>
+          <div id="records" class="small" style="margin-top:14px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="how" class="screen hidden">
+    <div class="panel" style="max-width:760px">
+      <h2 style="margin-top:0">How to play</h2>
+      <p id="desktopHow" class="small"><span class="kbd">WASD</span> move · <span class="kbd">Mouse</span> aim · <span class="kbd">LMB</span> fire · <span class="kbd">R</span> reload · <span class="kbd">G</span> grenade · <span class="kbd">F</span> interact/use · <span class="kbd">1-3</span> switch weapons · <span class="kbd">Esc</span> pause.</p><p id="mobileHow" class="small hidden"><b>Touch controls:</b> left stick moves. Hold and drag the right stick to aim and fire. Use the action buttons for reload, grenades, interactions, and weapon switching. Tap <b>Ⅱ</b> to pause.</p>
+      <p class="small">Kill infected for score. Spend score at weapon crates and barricades. Enemies drop ammo, armor, grenades, rare healing + pickups, and temporary power-ups. Grenades can clear packed chokepoints. Barricades can be repaired until destroyed.</p>
+      <button id="backBtn">BACK</button>
+    </div>
+  </div>
+
+  <div id="pause" class="screen hidden"><div class="panel" style="max-width:560px;text-align:center"><h2>OPERATION PAUSED</h2><p class="small">The sector is frozen.</p><div class="pauseTabs"><button id="pauseMainTab" class="active">PAUSE</button><button id="pauseControlsTab">CONTROLS</button></div><div id="pauseMainPane"><div class="stack"><button id="resumeBtn" class="primary">RESUME</button><button id="restartBtn">RESTART</button><button id="quitBtn" class="warn">ABORT TO MENU</button></div></div><div id="pauseControlsPane" class="hidden"><div id="controlList" class="controlList"></div><div class="small" style="margin-top:12px;text-align:left">Click a binding, then press a new key. Mouse aim and left-click fire are fixed.</div><div class="pauseFooter"><button id="resetControlsBtn">RESET DEFAULTS</button><button id="controlsBackBtn" class="primary">DONE</button></div></div></div></div>
+
+  <div id="between" class="screen hidden"><div class="panel"><h2 style="margin-top:0">WAVE CLEARED</h2><p class="small">Choose one field upgrade. Selection is immediate and lasts for the rest of the run.</p><div id="upgradeGrid" class="upgradeGrid"></div><div class="small" style="margin-top:14px">Next wave deploys after your selection.</div></div></div>
+
+  <div id="gameover" class="screen hidden"><div class="panel" style="max-width:650px;text-align:center"><div class="subtitle">Containment failed</div><h2 style="font-size:44px;margin:0">YOU DIED</h2><div id="endStats" class="stats"></div><div class="row" style="justify-content:center"><button id="againBtn" class="primary">RUN IT BACK</button><button id="menuBtn">MAIN MENU</button></div></div></div>
+</div>
+<script src="maps.js"></script>
+<script src="audio.js"></script>
+<script src="mobile.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
