@@ -3,10 +3,10 @@
 (() => {
 const maps=[
  {id:'yard',name:'BLACKSITE YARD',desc:'Open lanes, manageable chokepoints.',unlock:1,stars:1,difficulty:1,size:[2200,1500],floor:'#15191b',accent:'#30383c'},
- {id:'metro',name:'METRO 13',desc:'Tight corridors and brutal flanks.',unlock:8,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a',accent:'#29323b'},
- {id:'lab',name:'BIOCORE LAB',desc:'Elite density and little room to breathe.',unlock:15,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519',accent:'#392d38'},
- {id:'refinery',name:'ASHFALL REFINERY',desc:'Industrial kill lanes, hot choke points, relentless pressure.',unlock:22,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513',accent:'#49352b'},
- {id:'vault',name:'OBLIVION VAULT',desc:'The final sector. Claustrophobic, fast, and unforgiving.',unlock:30,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216',accent:'#34263d'}
+ {id:'metro',name:'METRO 13',desc:'Tight corridors and brutal flanks.',unlock:2,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a',accent:'#29323b'},
+ {id:'lab',name:'BIOCORE LAB',desc:'Elite density and little room to breathe.',unlock:3,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519',accent:'#392d38'},
+ {id:'refinery',name:'ASHFALL REFINERY',desc:'Industrial kill lanes, hot choke points, relentless pressure.',unlock:4,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513',accent:'#49352b'},
+ {id:'vault',name:'OBLIVION VAULT',desc:'The final sector. Claustrophobic, fast, and unforgiving.',unlock:5,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216',accent:'#34263d'}
 ];
 function makeMap(idx){const m=maps[idx],obs=[],spawns=[],shops=[],barr=[];if(m.id==='yard'){
  obs.push({x:620,y:340,w:280,h:170,type:'building'},{x:1280,y:300,w:310,h:190,type:'building'},{x:850,y:930,w:450,h:170,type:'building'},{x:150,y:650,w:250,h:90,type:'crate'},{x:1710,y:780,w:280,h:100,type:'crate'});
