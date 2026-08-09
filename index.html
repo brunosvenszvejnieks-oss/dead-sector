@@ -14,8 +14,8 @@
   <div id="hud">
     <div class="waveCenter pill"><div class="label">WAVE</div><div id="waveNum" class="waveHuge">1</div><div id="zombiesLeft" class="hostileCount">0 HOSTILES</div></div>
     <div class="scoreTop pill"><div class="label">SCORE</div><div id="scoreNum" class="bigNum score">0</div></div>
-    <div id="weaponSlots" class="weaponSlots"><div class="slotHint">TAB · REARRANGE</div><div class="weaponSlot" data-slot="0"><span class="slotNum">1</span><span class="slotWeapon">M9 Sidearm</span></div><div class="weaponSlot" data-slot="1"><span class="slotNum">2</span><span class="slotWeapon">EMPTY</span></div><div class="weaponSlot" data-slot="2"><span class="slotNum">3</span><span class="slotWeapon">EMPTY</span></div></div>
-    <div class="hudBottom"><div class="healthWrap healthLarge"><div class="label">HEALTH <span id="hpText">100 / 100</span></div><div class="bar healthBar"><div id="hpFill" class="fill"></div></div></div><div class="pill weaponBox"><div id="weaponName" class="weaponName">M9 Sidearm</div><div id="ammoText" class="ammo">12</div><div id="grenadeText" class="grenadeText">Grenades: 0</div></div></div>
+    <div id="weaponSlots" class="weaponSlots"><div class="slotHint">TAB · REARRANGE</div><div class="weaponSlot" data-slot="0"><span class="slotNum">1</span><span class="weaponIcon pistol" aria-hidden="true"></span><span class="slotWeapon">M9 Sidearm</span></div><div class="weaponSlot" data-slot="1"><span class="slotNum">2</span><span class="weaponIcon empty" aria-hidden="true"></span><span class="slotWeapon">EMPTY</span></div><div class="weaponSlot" data-slot="2"><span class="slotNum">3</span><span class="weaponIcon empty" aria-hidden="true"></span><span class="slotWeapon">EMPTY</span></div></div>
+    <div class="hudBottom"><div class="healthWrap healthLarge"><div class="label">HEALTH</div><div class="bar healthBar"><div id="hpFill" class="fill"></div><span id="hpText" class="healthValue">100 / 100</span></div></div><div class="hudAmmoStack"><div id="grenadeTab" class="pill grenadeTab"><span class="grenadeIcon" aria-hidden="true"></span><span id="grenadeText">0</span></div><div class="pill weaponBox"><div class="weaponHeading"><span id="hudWeaponIcon" class="weaponIcon pistol" aria-hidden="true"></span><div id="weaponName" class="weaponName">M9 Sidearm</div></div><div id="ammoText" class="ammo">12</div></div></div></div>
     <div id="interaction"></div><div id="toast"></div><div id="damageVignette"></div><div id="crosshair"></div>
     <div id="slotReorder" class="slotReorder hidden"><div class="slotReorderCard"><div class="slotReorderTitle">WEAPON LOADOUT</div><div class="small">Drag a weapon onto another slot to swap them. Press TAB again to close.</div><div id="slotReorderGrid"></div></div></div>
     <div id="mobileControls"><button id="mobilePauseBtn" aria-label="Pause">Ⅱ</button><div id="moveStick" class="stickZone"><div class="stickKnob"></div></div><div id="aimStick" class="stickZone"><div class="stickKnob"></div></div><div class="touchActions"><button class="touchBtn" id="touchReload">RELOAD</button><button class="touchBtn" id="touchGrenade">GRENADE</button><button class="touchBtn big" id="touchInteract">USE</button><button class="touchBtn big" id="touchWeapon">SWITCH WEAPON</button></div></div>
@@ -26,10 +26,10 @@
   <div id="between" class="screen hidden betweenOverlay"><div class="panel betweenPanel"><h2>WAVE CLEARED</h2><p>Keep moving while you choose one upgrade or buy a weapon.</p><div id="betweenLayout"><div><div class="betweenSectionTitle">FIELD UPGRADE</div><div id="upgradeGrid" class="upgradeGrid"></div></div><div><div class="betweenSectionTitle">WEAPON SHOP</div><div id="betweenWeaponShop"></div></div></div></div></div>
   <div id="gameover" class="screen hidden"><div class="panel" style="max-width:650px;text-align:center"><div class="subtitle">Containment failed</div><h2 style="font-size:44px;margin:0">YOU DIED</h2><div id="endStats" class="stats"></div><div class="row" style="justify-content:center"><button id="againBtn" class="primary">RUN IT BACK</button><button id="menuBtn">MAIN MENU</button></div></div></div>
 </div>
-<script src="maps.js?v=source5"></script>
+<script src="maps.js?v=source6"></script>
 <script src="audio.js"></script>
 <script src="mobile.js"></script>
 <script src="pc-ui.js"></script>
-<script src="game.js?v=source5"></script>
+<script src="game.js?v=source6"></script>
 </body>
 </html>
