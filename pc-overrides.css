@@ -94,3 +94,35 @@
   .howControls{gap:5px 12px;margin:10px 0}.howControls>div{padding:6px 9px}
   .controlList{max-height:40vh}
 }
+
+
+/* Reload, addon, minimap and advanced-pistol pass */
+@media (pointer:fine){
+  .waveCenter{top:18px;left:50%;transform:translateX(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top center;min-width:170px}
+  .healthWrap .powerBars{position:static;display:flex;align-items:flex-end;gap:8px;margin-bottom:7px;transform:none;height:29px}
+  .healthWrap .powerBar{display:none;opacity:1;width:198px;height:auto;border:0;border-radius:0;background:none;overflow:visible;flex-direction:column;gap:3px}
+  .healthWrap .powerBar.active{display:flex}
+  .healthWrap .powerBar .label{position:static;margin:0;font-size:8px;text-align:left}
+  .powerTrack{position:relative;width:100%;height:9px;border-radius:999px;overflow:hidden;background:rgba(6,8,12,.78);border:1px solid rgba(255,255,255,.12)}
+  .powerTrack i{position:absolute;inset:0;transform-origin:left center;transition:transform .06s linear}
+  .rapidBar .powerTrack i{background:linear-gradient(90deg,#7936b5,#c777f3)}
+  .doubleBar .powerTrack i{background:linear-gradient(90deg,#b68418,#f2c14e)}
+  .weaponBox{display:grid;grid-template-columns:64px minmax(112px,1fr);align-items:center;gap:8px;min-width:212px}
+  .weaponBox>.weaponIcon{justify-self:center;align-self:center;margin:0;flex-basis:auto;width:48px;height:28px;transform:scale(1.55);transform-origin:center}
+  .weaponReadout{margin:0;text-align:right}
+  .ammo{min-height:36px;display:flex;align-items:center;justify-content:flex-end}
+  .reloadSpinner{--reload:0;position:relative;display:inline-block;width:31px;height:31px;border-radius:50%;background:conic-gradient(#55d7ff calc(var(--reload) * 1turn),rgba(255,255,255,.12) 0);box-shadow:0 0 12px rgba(85,215,255,.18)}
+  .reloadSpinner::after{content:'';position:absolute;inset:5px;border-radius:50%;background:#0b0f14}
+  .reloadSpinner b{position:absolute;z-index:1;inset:10px;border-radius:50%;border:2px solid rgba(225,242,250,.85);border-top-color:transparent;animation:reloadSpin .7s linear infinite}
+  @keyframes reloadSpin{to{transform:rotate(360deg)}}
+  .weaponIcon.pistol2{color:#57aaff}
+  .weaponIcon.pistol2::before{left:0;top:2px;width:22px;height:6px;border-radius:2px 5px 1px 2px;background:#57aaff;box-shadow:6px -2px 0 -1px #9bc8ff}
+  .weaponIcon.pistol2::after{left:11px;top:8px;width:8px;height:7px;transform:skew(-12deg);background:#315f91;box-shadow:7px -3px 0 -2px #73b5ff}
+  .lockedBind{background:rgba(255,255,255,.035)!important;color:#7e8995!important;border:1px solid rgba(255,255,255,.055);cursor:not-allowed;opacity:.68}
+  .lockedHow{opacity:.62}.lockedHow .kbd{border-color:rgba(255,255,255,.08);color:#8f9ba7;background:#0e141b}
+  .uiScaleControls button{display:flex;align-items:center;justify-content:center;line-height:1;padding:0}
+}
+@media (max-height:800px) and (pointer:fine){
+  .healthWrap .powerBars{height:24px;margin-bottom:4px}
+  .powerTrack{height:7px}
+}
