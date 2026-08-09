@@ -17,3 +17,49 @@
   .pausePanel{max-height:92vh;overflow:auto}
 }
 @media (max-height:800px) and (pointer:fine){.menuPanel{padding:16px 20px}.mapBtn{min-height:54px;padding:6px 10px}.mapLevel{font-size:14px}.mapMeta{font-size:8px}.menuPanel .title{font-size:44px}.menuPanel .subtitle{margin-bottom:10px}.betweenOverlay{padding-top:125px}.betweenPanel{max-height:calc(100vh - 140px)}.hudBottom{bottom:10px}}
+
+
+/* PC readability and HUD refinement */
+@media (pointer:fine){
+  .hostileCount{color:#ff6257;font-size:11px;font-weight:950}
+  .mapBtn{min-height:52px;transition:min-height .2s ease,padding .2s ease,background .2s ease}
+  .mapBtn .mapMeta{display:none;font-size:12px;line-height:1.4;margin-top:7px;color:#b8c4d0}
+  .mapBtn.active{min-height:82px;padding-top:11px;padding-bottom:11px}
+  .mapBtn.active .mapMeta{display:block}
+  .menuButtons{margin-top:16px!important}
+  .menuPanel .card>h3{font-size:15px;margin-bottom:14px}
+  .menuPanel .card>p.small{font-size:14px;line-height:1.58;color:#aeb9c6}
+  .menuPanel #records{font-size:13px;line-height:1.55}
+  #menu::before{opacity:.20;animation-duration:22s}
+  #menu::after{opacity:.13;animation-duration:34s}
+  #toast{transform:translateX(-50%) scale(calc(.78 * var(--hud-base) * var(--ui-scale)))}
+  .toast{background:rgba(8,11,15,.68);border-color:rgba(255,255,255,.075);padding:6px 9px;font-size:10px;backdrop-filter:blur(4px)}
+  .weaponSlots{top:54%}
+  .weaponSlot{width:156px}
+  .weaponIcon{position:relative;display:inline-block;flex:0 0 25px;width:25px;height:14px;color:#aab6c2}
+  .weaponIcon::before,.weaponIcon::after{content:'';position:absolute;display:block;background:currentColor;border-radius:2px}
+  .weaponIcon.pistol::before{left:2px;top:2px;width:19px;height:5px;box-shadow:4px 2px 0 #73808c}.weaponIcon.pistol::after{left:12px;top:7px;width:6px;height:7px;transform:skew(-10deg);background:#697581}
+  .weaponIcon.smg::before{left:1px;top:3px;width:22px;height:6px;box-shadow:5px -2px 0 -1px #71808d}.weaponIcon.smg::after{left:9px;top:9px;width:6px;height:5px;background:#687581;box-shadow:9px -2px 0 -1px #84919b}
+  .weaponIcon.shotgun::before{left:0;top:4px;width:25px;height:5px;background:#b69b62;box-shadow:7px 3px 0 -1px #66727d}.weaponIcon.shotgun::after{left:16px;top:8px;width:7px;height:5px;transform:skew(-18deg);background:#596570}
+  .weaponIcon.rifle::before{left:0;top:3px;width:25px;height:6px;box-shadow:4px -2px 0 -1px #788590}.weaponIcon.rifle::after{left:10px;top:9px;width:6px;height:5px;transform:skew(-14deg);background:#687480;box-shadow:10px -2px 0 -1px #89959f}
+  .weaponIcon.empty{opacity:.24}.weaponIcon.empty::before{left:3px;top:6px;width:19px;height:2px}.weaponIcon.empty::after{display:none}
+  .weaponHeading,.shopWeapon{display:flex;align-items:center;gap:9px}.weaponHeading{justify-content:flex-end}
+  .shopChoice .weaponIcon{flex-basis:29px;transform:scale(1.08)}
+  .dragWeapon{display:flex;align-items:center;gap:9px}
+  .healthBar{position:relative;height:22px}
+  .healthValue{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:950;color:#f3fff7;text-shadow:0 1px 3px #07100a;letter-spacing:.05em}
+  .hudAmmoStack{display:flex;flex-direction:column;align-items:flex-end;gap:7px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:bottom right}
+  .hudAmmoStack .weaponBox{transform:none}
+  .grenadeTab{display:flex;align-items:center;gap:8px;min-width:64px;justify-content:center;padding:7px 10px;font-size:12px;font-weight:950}
+  .grenadeIcon{position:relative;width:10px;height:13px;border-radius:3px;background:#687661;box-shadow:inset 2px 0 rgba(255,255,255,.14)}
+  .grenadeIcon::before{content:'';position:absolute;left:2px;top:-4px;width:6px;height:4px;border-radius:1px;background:#87917f}
+  .grenadeIcon::after{content:'';position:absolute;left:8px;top:-4px;width:6px;height:6px;border:1px solid #aab3a5;border-left:0;border-radius:0 6px 6px 0}
+  .betweenPanel{width:min(1180px,90vw)}
+  #betweenLayout{grid-template-columns:minmax(0,1fr) 310px}
+}
+@media (max-height:800px) and (pointer:fine){
+  .mapBtn{min-height:43px}
+  .mapBtn.active{min-height:68px}
+  .mapBtn .mapMeta{font-size:10px}
+  .menuButtons{margin-top:13px!important}
+}
