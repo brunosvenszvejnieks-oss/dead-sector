@@ -126,3 +126,23 @@
   .healthWrap .powerBars{height:24px;margin-bottom:4px}
   .powerTrack{height:7px}
 }
+
+
+/* Four-slot, infinite-ammo and upper-right HUD pass */
+@media (pointer:fine){
+  .waveCenter{top:18px;left:auto;right:22px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top right;min-width:170px}
+  .scoreTop{top:132px;right:22px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top right}
+  .weaponBox{grid-template-columns:76px minmax(112px,1fr);padding-left:16px}
+  .weaponBox>.weaponIcon{justify-self:center;align-self:center;margin-left:8px;transform:scale(1.62)}
+  .ammo{font-size:42px;line-height:.85}
+  .slotReorderCard{width:680px}
+  #slotReorderGrid{grid-template-columns:repeat(4,1fr)}
+  #toast{z-index:500}
+  .betweenOverlay{z-index:100}
+  .upgrade h4{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .upgradeIcon{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;flex:0 0 29px;border-radius:8px;background:rgba(85,215,255,.10);border:1px solid rgba(85,215,255,.22);color:#8ae3ff;font-style:normal;font-size:15px;box-shadow:inset 0 0 10px rgba(85,215,255,.05)}
+}
+@media (max-height:800px) and (pointer:fine){
+  .scoreTop{top:112px}
+  .slotReorderCard{width:620px}
+}
