@@ -1,11 +1,11 @@
 'use strict';
 (() => {
 const maps=[
-{id:'yard',name:'BLACKSITE YARD',desc:'An abandoned containment yard where the first evacuation failed. Wide service lanes offer room to move, but scattered storage blocks create sudden chokepoints around the silent command buildings.',unlock:1,stars:1,difficulty:1,size:[2200,1500],floor:'#15191b'},
-{id:'metro',name:'METRO 13',desc:'Metro 13 was sealed with the final trains still on the platforms. Narrow maintenance passages split the station into dangerous lanes where infected can circle around stalled carriages.',unlock:2,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a'},
-{id:'lab',name:'BIOCORE LAB',desc:'A research complex built around the first recovered specimens. Broken laboratories and sealed clean rooms leave little space to retreat as stronger infected emerge from the darkened wings.',unlock:3,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519'},
-{id:'refinery',name:'ASHFALL REFINERY',desc:'Ashfall once processed fuel for the containment effort. Its furnaces are cold, but long industrial corridors and heavy machinery funnel every encounter into relentless kill lanes.',unlock:4,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513'},
-{id:'vault',name:'OBLIVION VAULT',desc:'The deepest emergency vault was designed to survive the outbreak. Now its cramped security chambers hold the sector’s most aggressive infected, with almost nowhere left to run.',unlock:5,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216'}
+{id:'yard',name:'BLACKSITE YARD',shortDesc:'Open lanes and simple chokepoints.',desc:'This is where the first evacuation fell apart. You have room to move in the service yard, but the storage blocks can trap you if you stop watching the side lanes.',unlock:1,stars:1,difficulty:1,size:[2200,1500],floor:'#15191b'},
+{id:'metro',name:'METRO 13',shortDesc:'Tight platforms with dangerous flanks.',desc:'The last trains never left Metro 13. Stay alert around the stalled carriages—the narrow passages make it easy for infected to come around behind you.',unlock:2,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a'},
+{id:'lab',name:'BIOCORE LAB',shortDesc:'Cramped rooms and stronger infected.',desc:'Biocore studied the first infected brought into the sector. Its labs are cramped, the exits are awkward, and the things left inside are tougher than what you have faced so far.',unlock:3,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519'},
+{id:'refinery',name:'ASHFALL REFINERY',shortDesc:'Long lanes with constant pressure.',desc:'Ashfall supplied the containment crews until the workers disappeared. The machinery creates long firing lanes, but once a crowd reaches you there is very little room to slip past.',unlock:4,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513'},
+{id:'vault',name:'OBLIVION VAULT',shortDesc:'Close quarters. No easy escape.',desc:'The Oblivion Vault was supposed to be the safe place. It was sealed too late. Its security rooms are tight, its infected are vicious, and you will rarely have a clean escape route.',unlock:5,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216'}
 ];
 function makeMap(idx){
  const m=maps[idx],obs=[],spawns=[],barr=[];
