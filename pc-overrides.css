@@ -172,3 +172,17 @@
   .descriptionCard #records{margin-bottom:8px}
   .howBriefing{font-size:11px;padding:7px 10px;margin-bottom:7px}
 }
+
+
+/* Level action placement and expanded description layout */
+@media (pointer:fine){
+  .runActions.menuButtons{display:flex;gap:9px;margin-top:16px!important}
+  .runActions.menuButtons button{flex:1;min-width:0}
+  .descriptionCard .levelProgress{grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}
+  .descriptionHow{width:100%;margin-top:auto}
+  .descriptionCard>p.small{min-height:112px}
+}
+@media (max-height:800px) and (pointer:fine){
+  .runActions.menuButtons{margin-top:12px!important}
+  .descriptionCard>p.small{min-height:78px;font-size:11px;line-height:1.42}
+}
