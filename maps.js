@@ -1,11 +1,11 @@
 'use strict';
 (() => {
 const maps=[
-{id:'yard',name:'BLACKSITE YARD',desc:'Open lanes, manageable chokepoints.',unlock:1,stars:1,difficulty:1,size:[2200,1500],floor:'#15191b'},
-{id:'metro',name:'METRO 13',desc:'Tight corridors and brutal flanks.',unlock:2,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a'},
-{id:'lab',name:'BIOCORE LAB',desc:'Elite density and little room to breathe.',unlock:3,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519'},
-{id:'refinery',name:'ASHFALL REFINERY',desc:'Industrial kill lanes and relentless pressure.',unlock:4,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513'},
-{id:'vault',name:'OBLIVION VAULT',desc:'Claustrophobic, fast, and unforgiving.',unlock:5,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216'}
+{id:'yard',name:'BLACKSITE YARD',desc:'An abandoned containment yard where the first evacuation failed. Wide service lanes offer room to move, but scattered storage blocks create sudden chokepoints around the silent command buildings.',unlock:1,stars:1,difficulty:1,size:[2200,1500],floor:'#15191b'},
+{id:'metro',name:'METRO 13',desc:'Metro 13 was sealed with the final trains still on the platforms. Narrow maintenance passages split the station into dangerous lanes where infected can circle around stalled carriages.',unlock:2,stars:2,difficulty:1.08,size:[2100,1450],floor:'#11151a'},
+{id:'lab',name:'BIOCORE LAB',desc:'A research complex built around the first recovered specimens. Broken laboratories and sealed clean rooms leave little space to retreat as stronger infected emerge from the darkened wings.',unlock:3,stars:3,difficulty:1.16,size:[2000,1400],floor:'#171519'},
+{id:'refinery',name:'ASHFALL REFINERY',desc:'Ashfall once processed fuel for the containment effort. Its furnaces are cold, but long industrial corridors and heavy machinery funnel every encounter into relentless kill lanes.',unlock:4,stars:4,difficulty:1.26,size:[2250,1500],floor:'#181513'},
+{id:'vault',name:'OBLIVION VAULT',desc:'The deepest emergency vault was designed to survive the outbreak. Now its cramped security chambers hold the sector’s most aggressive infected, with almost nowhere left to run.',unlock:5,stars:5,difficulty:1.38,size:[2050,1450],floor:'#121216'}
 ];
 function makeMap(idx){
  const m=maps[idx],obs=[],spawns=[],barr=[];
