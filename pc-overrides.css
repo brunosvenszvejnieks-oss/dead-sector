@@ -235,3 +235,26 @@
 
 /* Shop affordability and visible canvas-driven menu motion */
 .shopChoice{position:relative;overflow:hidden}.shopChoice.insufficient{opacity:.48;filter:saturate(.55)}.shopChoice .shopLock{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:5px;background:linear-gradient(180deg,rgba(5,7,10,.76),rgba(5,7,10,.18) 45%,rgba(5,7,10,.34));color:#f3f5f7;font-size:10px;font-weight:950;letter-spacing:.12em;pointer-events:none}.shopChoice.insufficient button{opacity:.45}#menu{background:radial-gradient(circle at 50% 40%,rgba(28,35,45,.28),rgba(4,6,9,.62))}#menu::before,#menu::after{display:none!important}
+
+/* Final combat feedback and pointer pass */
+@media (pointer:fine){
+  .mapBtn.lockedLevel{opacity:.14!important;filter:brightness(.5) saturate(.35)}
+  .mapBtn.lockedLevel::after{background:rgba(2,3,5,.58)}
+  .shopChoice.insufficient{opacity:1;filter:none;transition:filter .16s ease,opacity .16s ease}
+  .shopChoice.insufficient:hover{opacity:.42;filter:brightness(.55) saturate(.5)}
+  .shopChoice .shopLock{display:none}
+  .shopChoice.insufficient:hover .shopLock{display:flex}
+  #pause{z-index:90}
+  #between{z-index:70}
+  #pause.controlsOpen{background:transparent}
+  html,body,button,.screen,.panel{cursor:none!important}
+  #gameCursor{position:fixed;z-index:9999;display:none;width:17px;height:22px;pointer-events:none;transform:translate(2px,2px);filter:drop-shadow(0 2px 2px rgba(0,0,0,.75))}
+  #gameCursor.shown{display:block}
+  #gameCursor::before{content:'';position:absolute;inset:0;background:#eef5fa;clip-path:polygon(0 0,0 88%,25% 66%,40% 100%,54% 93%,39% 60%,72% 60%);border-radius:2px}
+  #gameCursor::after{content:'';position:absolute;inset:2px;background:#17202a;clip-path:polygon(0 0,0 72%,23% 53%,40% 86%,47% 82%,31% 48%,61% 48%)}
+  #crosshair.reloading::marker{display:none}
+  #crosshair.reloading{width:34px;height:34px}
+  #crosshair.reloading::before{width:34px;height:34px;left:0;top:0;border-radius:50%;background:conic-gradient(var(--reload-color) calc(var(--reload-progress) * 1turn),rgba(255,255,255,.12) 0);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%);mask:radial-gradient(circle,transparent 58%,#000 60%)}
+  #crosshair.reloading::after{width:18px;height:2px;left:8px;top:16px;background:rgba(255,255,255,.78)}
+}
+#powerVignette{position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 0 115px 26px rgba(242,193,78,var(--double-vig,0)),inset 0 0 105px 22px rgba(166,87,255,var(--rapid-vig,0));transition:box-shadow .18s linear}
