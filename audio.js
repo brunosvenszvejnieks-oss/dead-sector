@@ -7,7 +7,7 @@ function tone(start,end,duration,volume,type='sine',delay=0){const t=ctx.current
 function noise(duration,volume,frequency=1800,filterType='lowpass',delay=0){const rate=ctx.sampleRate,length=Math.max(1,Math.floor(rate*duration)),buffer=ctx.createBuffer(1,length,rate),data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length*.35);const t=ctx.currentTime+delay,source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();source.buffer=buffer;filter.type=filterType;filter.frequency.setValueAtTime(frequency,t);gain.gain.setValueAtTime(Math.max(.0001,volume),t);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start(t);source.stop(t+duration)}
 function sfx(type,vol=.1){if(!ctx)return;const v=Math.min(.44,vol*3.1);
  if(type==='pistol'){noise(.052,v*1.45,820,'highpass');noise(.15,v*.92,1050,'bandpass',.002);tone(105,34,.2,v*.9,'sine');noise(.24,v*.48,360,'lowpass',.012);tone(1500,480,.026,v*.18,'triangle',.008)}
- else if(type==='bluePistol'){noise(.07,v*1.02,1650,'highpass');noise(.14,v*.55,900,'bandpass',.004);tone(420,118,.15,v*.64,'sawtooth');tone(145,48,.2,v*.68,'sine',.006);noise(.2,v*.32,380,'lowpass',.016)}
+ else if(type==='bluePistol'){noise(.14,v*1.16,1120,'bandpass')}
  else if(type==='shotgun'){noise(.3,v*1.5,1250,'lowpass');noise(.12,v*.95,780,'bandpass');tone(88,28,.38,v*1.15,'sine');noise(.42,v*.58,330,'lowpass',.018)}
  else if(type==='ak'){noise(.09,v*1.3,1120,'bandpass');noise(.16,v*.62,540,'lowpass',.006);tone(112,36,.16,v*.92,'square');tone(1320,420,.03,v*.3,'triangle',.009)}
  else if(type==='reload')tone(420,260,.08,v*.42,'triangle');
