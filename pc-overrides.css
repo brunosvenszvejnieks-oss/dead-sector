@@ -263,3 +263,7 @@
 #gameover.victory #endTitle{color:#68e08f;font-size:54px!important;letter-spacing:.06em;text-shadow:0 0 18px rgba(89,217,142,.52),0 3px 0 rgba(0,0,0,.42)}
 #gameover.victory #endSubtitle{color:#9ff0bc;font-weight:850}
 #gameover .victorySecondary{background:#48515b!important;border-color:#66717d!important;color:#d8dde2!important;box-shadow:none!important}
+
+/* Level selector numbering and emphasis */
+.mapBtn .stars{font-size:16px;line-height:1.15;letter-spacing:.08em;text-shadow:0 0 7px rgba(242,193,78,.28)}
+.mapBtn .mapLevel{font-variant-numeric:normal}
