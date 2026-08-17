@@ -13,7 +13,7 @@ function makeMap(idx){
   obs.push({x:620,y:340,w:280,h:170,type:'stone'},{x:1280,y:300,w:310,h:190,type:'stone'},{x:850,y:930,w:450,h:170,type:'stone'},{x:150,y:650,w:250,h:90,type:'wood'},{x:1710,y:780,w:280,h:100,type:'wood'});
   spawns.push({x:60,y:60},{x:1100,y:40},{x:2140,y:100},{x:2150,y:1350},{x:1100,y:1450},{x:50,y:1360});
  }else if(m.id==='metro'){
-  obs.push({x:350,y:0,w:120,h:560,type:'wall'},{x:350,y:780,w:120,h:670,type:'wall'},{x:920,y:250,w:130,h:950,type:'wall'},{x:1500,y:0,w:120,h:550,type:'wall'},{x:1500,y:800,w:120,h:650,type:'wall'},{x:470,y:560,w:330,h:140,type:'train'},{x:1120,y:610,w:380,h:140,type:'train'});
+  obs.push({x:350,y:0,w:120,h:520,type:'wall'},{x:350,y:820,w:120,h:630,type:'wall'},{x:920,y:160,w:130,h:370,type:'wall'},{x:920,y:920,w:130,h:370,type:'wall'},{x:1500,y:0,w:120,h:510,type:'wall'},{x:1500,y:840,w:120,h:610,type:'wall'},{x:520,y:610,w:250,h:110,type:'metal'},{x:560,y:1040,w:260,h:100,type:'metal'},{x:1260,y:600,w:240,h:110,type:'wood'},{x:1280,y:1020,w:240,h:100,type:'wood'});
   spawns.push({x:50,y:100},{x:60,y:1350},{x:650,y:50},{x:1320,y:70},{x:2040,y:100},{x:2050,y:1350});
   barr.push({x:735,y:320,w:24,h:130,hp:500,maxHp:500},{x:1270,y:950,w:24,h:130,hp:500,maxHp:500});
  }else if(m.id==='lab'){
