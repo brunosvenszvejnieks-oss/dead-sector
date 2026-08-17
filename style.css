@@ -1,3 +1,11 @@
+/*
+ * DEAD SECTOR styles
+ *
+ * Base rules and PC-specific rules are kept in their original cascade order.
+ * Consolidating them removes an extra request without changing precedence.
+ */
+
+/* ======================== Base interface ======================== */
 :root{--bg:#07090c;--panel:#10151c;--panel2:#151c24;--text:#e9eef5;--muted:#8e9aaa;--accent:#ff4b3e;--gold:#f2c14e;--green:#59d98e;--cyan:#55d7ff;--ui-scale:1.15}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05070a;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;user-select:none;overscroll-behavior:none;touch-action:none;position:fixed;inset:0}body{-webkit-touch-callout:none}canvas{display:block;position:fixed;inset:0;width:100vw;height:100vh;cursor:none;background:#07090c}.ui{position:fixed;inset:0;pointer-events:none}.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(35,42,53,.68),rgba(4,6,9,.94));pointer-events:auto}.hidden{display:none!important}.panel{width:min(980px,92vw);max-height:90vh;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(19,25,33,.96),rgba(9,13,18,.98));box-shadow:0 24px 80px rgba(0,0,0,.55);border-radius:18px;padding:32px}.title{font-weight:950;letter-spacing:.14em;font-size:clamp(38px,7vw,84px);line-height:.9;margin:0 0 8px;text-transform:uppercase}.title span{color:var(--accent)}.subtitle{color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-size:12px;margin-bottom:28px}.menuGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}.card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px}.card h3{margin:0 0 12px;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#cdd6e1}button{pointer-events:auto;border:0;border-radius:10px;background:#222b36;color:#f4f7fb;padding:13px 16px;font-weight:800;letter-spacing:.04em;cursor:pointer;transition:.16s transform,.16s background,.16s opacity;font-size:14px}button:hover{transform:translateY(-1px);background:#2d3947}button.primary{background:var(--accent)}button.warn{background:#742d31}.row{display:flex;gap:10px;flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:10px}.mapBtn{display:flex;justify-content:space-between;text-align:left;align-items:center;width:100%;padding:14px 15px}.mapBtn.active{outline:2px solid rgba(85,215,255,.7);background:#1b2b37}.mapMeta{font-size:11px;color:var(--muted);font-weight:650;margin-top:3px}.tag{font-size:10px;padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.07);color:#b7c2cf}.tag.locked{color:#ffb0aa;background:rgba(255,75,62,.12)}.stars{color:var(--gold);letter-spacing:.08em;font-size:13px;margin-top:4px}.small{font-size:12px;color:var(--muted);line-height:1.55}.kbd{display:inline-flex;padding:3px 6px;border:1px solid rgba(255,255,255,.15);border-bottom-width:3px;border-radius:6px;color:#e7edf5;background:#111821;font-size:11px;font-weight:800}
 #hud{position:absolute;inset:0;display:none;pointer-events:none;transform-origin:top left;font-size:calc(1em * var(--ui-scale))}.hudTop{position:absolute;top:calc(18px * var(--ui-scale));left:calc(18px * var(--ui-scale));right:calc(18px * var(--ui-scale));display:flex;justify-content:space-between}.pill{background:rgba(7,10,14,.76);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:calc(9px * var(--ui-scale)) calc(12px * var(--ui-scale));box-shadow:0 10px 28px rgba(0,0,0,.22)}.bigNum{font-size:calc(28px * var(--ui-scale));font-weight:950;line-height:1}.label{font-size:calc(9px * var(--ui-scale));letter-spacing:.18em;text-transform:uppercase;color:#91a0b2;margin-bottom:4px}.score{color:var(--gold)}.hudBottom{position:absolute;left:calc(18px * var(--ui-scale));right:calc(18px * var(--ui-scale));bottom:calc(18px * var(--ui-scale));display:flex;justify-content:space-between;align-items:flex-end}.healthWrap{width:calc(330px * var(--ui-scale));max-width:46vw}.bar{height:calc(12px * var(--ui-scale));background:#1a2028;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}.fill{height:100%;width:100%;background:linear-gradient(90deg,#38c875,#6cea9e)}.armorFill{background:linear-gradient(90deg,#448ddb,#66c1ff)}.weaponBox{text-align:right;min-width:calc(210px * var(--ui-scale))}.weaponName{font-weight:900;font-size:calc(16px * var(--ui-scale))}.ammo{font-weight:950;font-size:calc(32px * var(--ui-scale));line-height:1;margin-top:3px}.grenadeText{font-size:calc(11px * var(--ui-scale));color:#c3ccd6;margin-top:6px}#interaction{position:absolute;left:50%;bottom:18%;transform:translateX(-50%);background:rgba(0,0,0,.72);padding:calc(8px * var(--ui-scale)) calc(11px * var(--ui-scale));border-radius:8px;font-size:calc(12px * var(--ui-scale));font-weight:800;opacity:0}#toast{position:absolute;left:50%;top:16%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;align-items:center}.toast{background:rgba(8,11,15,.88);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:8px 12px;font-size:12px;font-weight:800}#damageVignette{position:absolute;inset:0;background:radial-gradient(circle,transparent 47%,rgba(180,0,0,.72));opacity:0}#crosshair{position:absolute;width:22px;height:22px;pointer-events:none;transform:translate(-50%,-50%);display:none}#crosshair:before,#crosshair:after{content:"";position:absolute;background:rgba(255,255,255,.85)}#crosshair:before{width:2px;height:18px;left:10px;top:2px}#crosshair:after{width:18px;height:2px;left:2px;top:10px}
@@ -30,3 +38,289 @@ html body #gameCursor::before{background:linear-gradient(145deg,#82909b 0%,#4b56
 .victorySparks{position:absolute;left:50%;top:50%;width:720px;height:420px;transform:translate(-50%,-50%);pointer-events:none;z-index:1;overflow:visible}
 .victorySparks i{position:absolute;left:50%;top:50%;width:var(--size);height:var(--size);border-radius:50%;background:#5be582;box-shadow:0 0 8px rgba(79,226,124,.8);animation:victorySpark var(--d) var(--delay) ease-in-out infinite}
 @keyframes victorySpark{0%{transform:translate(var(--x),var(--y)) scale(.35);opacity:0}18%{opacity:.85}70%{opacity:.48}100%{transform:translate(calc(var(--x) + var(--dx)),calc(var(--y) + var(--dy))) scale(1.25);opacity:0}}
+
+
+/* ==================== PC layout and overrides =================== */
+:root{--ui-scale:.80;--hud-base:1.62}
+@media (pointer:fine){
+  #hud{font-size:calc(16px * var(--hud-base) * var(--ui-scale));}
+  .waveCenter{position:absolute;top:18px;left:50%;transform:translateX(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top center;text-align:center;min-width:170px;padding:9px 20px}.waveHuge{font-size:34px;font-weight:950;line-height:1}.hostileCount{font-size:10px;letter-spacing:.12em;margin-top:5px;color:#aeb8c4}
+  .scoreTop{position:absolute;top:20px;right:22px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top right;text-align:right}.scoreTop .score{font-size:23px}
+  .hudBottom{left:22px;right:22px;bottom:18px;transform:none;align-items:flex-end}.healthWrap{width:min(420px,42vw);transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:bottom left}.weaponBox{min-width:175px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:bottom right}.healthBar{height:18px}.healthLarge .label{font-size:10px}.ammo{font-size:34px}.grenadeText{font-size:11px;color:#d8e0e8;margin-top:6px}
+  #interaction{transform:translateX(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:center bottom;}
+  #toast{transform:translateX(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:center top;}
+  .weaponSlots{position:absolute;left:20px;top:50%;transform:translateY(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:left center;display:flex;flex-direction:column;gap:7px}.slotHint{font-size:8px;color:#7f8b98;letter-spacing:.12em;margin-bottom:2px}.weaponSlot{width:138px;min-height:40px;background:rgba(7,10,14,.72);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:8px 9px;display:flex;gap:8px;align-items:center}.weaponSlot.active{outline:1px solid rgba(85,215,255,.7);background:rgba(25,42,55,.82)}.slotNum{font-size:10px;color:#8795a3;font-weight:900}.slotWeapon{font-size:10px;font-weight:850;color:#dce4ec;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .slotReorder{position:absolute;inset:0;background:rgba(3,5,8,.46);display:flex;align-items:center;justify-content:center;pointer-events:auto;z-index:60}.slotReorderCard{width:520px;padding:20px;background:rgba(10,14,19,.96);border:1px solid rgba(255,255,255,.10);border-radius:14px;box-shadow:0 22px 70px rgba(0,0,0,.5)}.slotReorderTitle{font-size:20px;font-weight:950;letter-spacing:.1em;margin-bottom:4px}.slotReorderCard .small{margin-bottom:15px}#slotReorderGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.dragSlot{min-height:92px;border:1px dashed rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.035);padding:10px;display:flex;flex-direction:column;justify-content:space-between}.dragSlot.dragOver{outline:2px solid rgba(85,215,255,.7)}.dragWeapon{padding:10px;background:#202934;border-radius:8px;font-size:12px;font-weight:850;cursor:grab}.dragSlotLabel{font-size:9px;color:#8996a5;letter-spacing:.12em}
+  .mapBtn{position:relative;overflow:hidden;min-height:66px;padding:9px 12px}.mapLevel{font-size:17px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:#f4f7fb}.mapSite{font-size:11px;font-weight:800;color:#b8c3cf;letter-spacing:.08em;margin-top:1px}.stars{margin-top:3px;font-size:10px}.mapMeta{font-size:9px}.mapBtn.lockedLevel{opacity:.28!important;filter:saturate(.55)}.mapBtn.lockedLevel::after{content:'LOCKED';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,7,10,.28);font-size:17px;letter-spacing:.18em;font-weight:950;color:#f1f4f7;pointer-events:none}.mapBtn.lockedLevel:hover::after{content:attr(data-lockhint);font-size:11px;letter-spacing:.08em;padding:0 26px;text-align:center;background:rgba(5,7,10,.76)}
+  #menu::before,#menu::after{content:'';position:absolute;inset:-12%;pointer-events:none;z-index:0;background-repeat:repeat;background-size:190px 190px;opacity:.12;animation:menuDrift 28s linear infinite}.screen>.panel{position:relative;z-index:1}#menu::before{background-image:radial-gradient(circle at 22px 31px,rgba(255,255,255,.28) 0 1px,transparent 1.6px),radial-gradient(circle at 111px 77px,rgba(85,215,255,.18) 0 1px,transparent 1.5px)}#menu::after{background-size:270px 270px;opacity:.07;animation-duration:42s;animation-direction:reverse;background-image:radial-gradient(circle at 70px 120px,rgba(255,75,62,.22) 0 1.2px,transparent 1.9px)}@keyframes menuDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(95px,62px,0)}}
+  .menuPanel{max-height:94vh;padding:24px 28px}.menuPanel .title{font-size:clamp(38px,6vw,70px)}.menuPanel .subtitle{margin-bottom:18px}.menuPanel .menuGrid{gap:16px}.menuPanel .card{padding:14px}.menuButtons{margin-top:10px!important}
+  .upgradeGrid{gap:12px}.upgrade{padding:16px}.upgrade h4{font-size:18px;margin:0 0 7px}.upgrade p{font-size:13px;line-height:1.4;min-height:40px}.upgrade button{font-size:12px}
+  .betweenOverlay{background:rgba(4,6,9,.20);pointer-events:none;align-items:flex-start;padding-top:150px}.betweenPanel{pointer-events:auto;width:min(1080px,82vw);padding:18px 20px;background:rgba(9,13,18,.91);backdrop-filter:blur(6px);max-height:calc(100vh - 170px);overflow:auto}.betweenPanel h2{font-size:27px;margin:0 0 4px}.betweenPanel>p{font-size:13px;color:#aeb9c5;margin:0 0 12px}.betweenSectionTitle{font-size:10px;letter-spacing:.16em;color:#8694a2;font-weight:900;margin-bottom:8px}#betweenLayout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}#betweenWeaponShop{display:flex;flex-direction:column;gap:8px}.shopChoice{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px}.shopChoice b{font-size:12px}.shopChoice span{font-size:10px;color:#8f9aa7}.shopChoice button{padding:8px 10px;font-size:10px}
+  .uiScaleRow{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}.uiScaleControls{display:flex;align-items:center;gap:8px}.uiScaleControls button{width:40px;padding:8px}.uiScaleControls span{min-width:52px;text-align:center;font-weight:900}
+  .pausePanel{max-height:92vh;overflow:auto}
+}
+@media (max-height:800px) and (pointer:fine){.menuPanel{padding:16px 20px}.mapBtn{min-height:54px;padding:6px 10px}.mapLevel{font-size:14px}.mapMeta{font-size:8px}.menuPanel .title{font-size:44px}.menuPanel .subtitle{margin-bottom:10px}.betweenOverlay{padding-top:125px}.betweenPanel{max-height:calc(100vh - 140px)}.hudBottom{bottom:10px}}
+
+
+/* PC readability and HUD refinement */
+@media (pointer:fine){
+  .hostileCount{color:#ff6257;font-size:11px;font-weight:950}
+  .mapBtn{min-height:52px;transition:min-height .2s ease,padding .2s ease,background .2s ease}
+  .mapBtn .mapMeta{display:none;font-size:12px;line-height:1.4;margin-top:7px;color:#b8c4d0}
+  .mapBtn.active{min-height:82px;padding-top:11px;padding-bottom:11px}
+  .mapBtn.active .mapMeta{display:block}
+  .menuButtons{margin-top:16px!important}
+  .menuPanel .card>h3{font-size:15px;margin-bottom:14px}
+  .menuPanel .card>p.small{font-size:14px;line-height:1.58;color:#aeb9c6}
+  .menuPanel #records{font-size:13px;line-height:1.55}
+  #menu::before{opacity:.20;animation-duration:22s}
+  #menu::after{opacity:.13;animation-duration:34s}
+  #toast{transform:translateX(-50%) scale(calc(.78 * var(--hud-base) * var(--ui-scale)))}
+  .toast{background:rgba(8,11,15,.68);border-color:rgba(255,255,255,.075);padding:6px 9px;font-size:10px;backdrop-filter:blur(4px)}
+  .weaponSlots{top:54%}
+  .weaponSlot{width:156px}
+  .weaponIcon{position:relative;display:inline-block;flex:0 0 25px;width:25px;height:14px;color:#aab6c2}
+  .weaponIcon::before,.weaponIcon::after{content:'';position:absolute;display:block;background:currentColor;border-radius:2px}
+  .weaponIcon.pistol::before{left:2px;top:2px;width:19px;height:5px;box-shadow:4px 2px 0 #73808c}.weaponIcon.pistol::after{left:12px;top:7px;width:6px;height:7px;transform:skew(-10deg);background:#697581}
+  .weaponIcon.smg::before{left:1px;top:3px;width:22px;height:6px;box-shadow:5px -2px 0 -1px #71808d}.weaponIcon.smg::after{left:9px;top:9px;width:6px;height:5px;background:#687581;box-shadow:9px -2px 0 -1px #84919b}
+  .weaponIcon.shotgun::before{left:0;top:4px;width:25px;height:5px;background:#b69b62;box-shadow:7px 3px 0 -1px #66727d}.weaponIcon.shotgun::after{left:16px;top:8px;width:7px;height:5px;transform:skew(-18deg);background:#596570}
+  .weaponIcon.rifle::before{left:0;top:3px;width:25px;height:6px;box-shadow:4px -2px 0 -1px #788590}.weaponIcon.rifle::after{left:10px;top:9px;width:6px;height:5px;transform:skew(-14deg);background:#687480;box-shadow:10px -2px 0 -1px #89959f}
+  .weaponIcon.empty{opacity:.24}.weaponIcon.empty::before{left:3px;top:6px;width:19px;height:2px}.weaponIcon.empty::after{display:none}
+  .weaponHeading,.shopWeapon{display:flex;align-items:center;gap:9px}.weaponHeading{justify-content:flex-end}
+  .shopChoice .weaponIcon{flex-basis:29px;transform:scale(1.08)}
+  .dragWeapon{display:flex;align-items:center;gap:9px}
+  .healthBar{position:relative;height:22px}
+  .healthValue{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:950;color:#f3fff7;text-shadow:0 1px 3px #07100a;letter-spacing:.05em}
+  .hudAmmoStack{display:flex;flex-direction:column;align-items:flex-end;gap:7px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:bottom right}
+  .hudAmmoStack .weaponBox{transform:none}
+  .grenadeTab{display:flex;align-items:center;gap:8px;min-width:64px;justify-content:center;padding:7px 10px;font-size:12px;font-weight:950}
+  .grenadeIcon{position:relative;width:10px;height:13px;border-radius:3px;background:#687661;box-shadow:inset 2px 0 rgba(255,255,255,.14)}
+  .grenadeIcon::before{content:'';position:absolute;left:2px;top:-4px;width:6px;height:4px;border-radius:1px;background:#87917f}
+  .grenadeIcon::after{content:'';position:absolute;left:8px;top:-4px;width:6px;height:6px;border:1px solid #aab3a5;border-left:0;border-radius:0 6px 6px 0}
+  .betweenPanel{width:min(1180px,90vw)}
+  #betweenLayout{grid-template-columns:minmax(0,1fr) 310px}
+}
+@media (max-height:800px) and (pointer:fine){
+  .mapBtn{min-height:43px}
+  .mapBtn.active{min-height:68px}
+  .mapBtn .mapMeta{font-size:10px}
+  .menuButtons{margin-top:13px!important}
+}
+
+
+/* Combat clarity and inventory revision */
+@media (pointer:fine){
+  .waveCenter{top:18px;left:20px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top left;min-width:155px}
+  .powerBars{position:absolute;right:22px;top:50%;transform:translateY(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:right center;display:flex;gap:9px;align-items:center}
+  .powerBar{position:relative;width:19px;height:124px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(6,8,12,.7);overflow:hidden;opacity:0;transition:opacity .16s}
+  .powerBar.active{opacity:1}.powerBar i{position:absolute;inset:0;transform-origin:bottom;transition:transform .06s linear}
+  .powerBar span{position:absolute;z-index:2;left:50%;bottom:7px;transform:translateX(-50%) rotate(-90deg);font-size:7px;font-weight:950;letter-spacing:.11em;white-space:nowrap;color:#f6f4fb;text-shadow:0 1px 3px #000}
+  .rapidBar i{background:linear-gradient(0deg,#7a35b8,#bd72f0)}.doubleBar i{background:linear-gradient(0deg,#b98616,#f2c14e)}
+  .healthBar .fill{position:absolute;inset:0}.overhealFill{position:absolute;right:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#e8792d,#ffb052);box-shadow:-2px 0 7px rgba(255,145,60,.55)}
+  .weaponBox{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:16px;min-width:205px;text-align:right}
+  .weaponBox>.weaponIcon{flex-basis:48px;width:48px;height:28px;transform:scale(1.45);transform-origin:center}
+  .weaponReadout{margin-left:auto}.weaponHeading{display:block}.weaponName{white-space:nowrap}
+  .weaponIcon.pistol::before{left:1px;top:2px;width:17px;height:5px;border-radius:1px 4px 1px 1px;box-shadow:5px -2px 0 -1px #d5dbe0}.weaponIcon.pistol::after{left:10px;top:7px;width:7px;height:8px;transform:skew(-13deg);background:#68747e;box-shadow:none}
+  .weaponIcon.smg::before{left:0;top:3px;width:23px;height:7px;border-radius:4px 1px 1px 3px;box-shadow:8px -3px 0 -2px #748694}.weaponIcon.smg::after{left:8px;top:10px;width:5px;height:6px;background:#56636e;box-shadow:10px -4px 0 -1px #8997a1}
+  .weaponIcon.rifle::before{left:0;top:4px;width:25px;height:5px;border-radius:1px;box-shadow:-5px 1px 0 -1px #875f45,8px -2px 0 -1px #909ba3}.weaponIcon.rifle::after{left:11px;top:9px;width:5px;height:6px;transform:skew(-18deg);background:#5c6872;box-shadow:10px -4px 0 0 #72523e}
+  .weaponIcon.shotgun::before{left:-2px;top:5px;width:28px;height:4px;border-radius:1px;background:#9a7951;box-shadow:8px 3px 0 -1px #616e78}.weaponIcon.shotgun::after{left:17px;top:9px;width:8px;height:5px;transform:skew(-22deg);background:#4f5b65}
+  .howPanel{max-width:760px}.howPanel h2{margin-top:0}.howControls{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin:18px 0 20px}
+  .howControls>div{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+  .howControls b{font-size:11px;letter-spacing:.1em;color:#b9c5d1}.howControls .kbd{min-width:92px;justify-content:center}
+  .controlList{max-height:47vh;overflow:auto;padding-right:6px}.controlList .fixedControl{color:#f0f5fa;font-weight:850}
+  .uiScaleRow{flex-direction:column;text-align:center;justify-content:center;gap:10px}.uiScaleRow>div:first-child{text-align:center}
+  .uiScaleControls{width:100%;justify-content:center}
+  .confirmPane{text-align:center;padding-top:8px}.confirmPane h3{font-size:24px;letter-spacing:.11em;margin:6px 0}.confirmActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.confirmActions button{width:100%}.confirmNo{background:#f4f6f8!important;color:#101419!important;box-shadow:0 0 0 2px rgba(255,255,255,.28)}
+}
+@media (max-height:800px) and (pointer:fine){
+  .powerBar{height:104px}
+  .howControls{gap:5px 12px;margin:10px 0}.howControls>div{padding:6px 9px}
+  .controlList{max-height:40vh}
+}
+
+
+/* Reload, addon, minimap and advanced-pistol pass */
+@media (pointer:fine){
+  .waveCenter{top:18px;left:50%;transform:translateX(-50%) scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top center;min-width:170px}
+  .healthWrap .powerBars{position:static;display:flex;align-items:flex-end;gap:8px;margin-bottom:7px;transform:none;height:29px}
+  .healthWrap .powerBar{display:none;opacity:1;width:198px;height:auto;border:0;border-radius:0;background:none;overflow:visible;flex-direction:column;gap:3px}
+  .healthWrap .powerBar.active{display:flex}
+  .healthWrap .powerBar .label{position:static;margin:0;font-size:8px;text-align:left}
+  .powerTrack{position:relative;width:100%;height:9px;border-radius:999px;overflow:hidden;background:rgba(6,8,12,.78);border:1px solid rgba(255,255,255,.12)}
+  .powerTrack i{position:absolute;inset:0;transform-origin:left center;transition:transform .06s linear}
+  .rapidBar .powerTrack i{background:linear-gradient(90deg,#7936b5,#c777f3)}
+  .doubleBar .powerTrack i{background:linear-gradient(90deg,#b68418,#f2c14e)}
+  .weaponBox{display:grid;grid-template-columns:64px minmax(112px,1fr);align-items:center;gap:8px;min-width:212px}
+  .weaponBox>.weaponIcon{justify-self:center;align-self:center;margin:0;flex-basis:auto;width:48px;height:28px;transform:scale(1.55);transform-origin:center}
+  .weaponReadout{margin:0;text-align:right}
+  .ammo{min-height:36px;display:flex;align-items:center;justify-content:flex-end}
+  .reloadSpinner{--reload:0;position:relative;display:inline-block;width:31px;height:31px;border-radius:50%;background:conic-gradient(#55d7ff calc(var(--reload) * 1turn),rgba(255,255,255,.12) 0);box-shadow:0 0 12px rgba(85,215,255,.18)}
+  .reloadSpinner::after{content:'';position:absolute;inset:5px;border-radius:50%;background:#0b0f14}
+  .reloadSpinner b{position:absolute;z-index:1;inset:10px;border-radius:50%;border:2px solid rgba(225,242,250,.85);border-top-color:transparent;animation:reloadSpin .7s linear infinite}
+  @keyframes reloadSpin{to{transform:rotate(360deg)}}
+  .weaponIcon.pistol2{color:#57aaff}
+  .weaponIcon.pistol2::before{left:0;top:2px;width:22px;height:6px;border-radius:2px 5px 1px 2px;background:#57aaff;box-shadow:6px -2px 0 -1px #9bc8ff}
+  .weaponIcon.pistol2::after{left:11px;top:8px;width:8px;height:7px;transform:skew(-12deg);background:#315f91;box-shadow:7px -3px 0 -2px #73b5ff}
+  .lockedBind{background:rgba(255,255,255,.035)!important;color:#7e8995!important;border:1px solid rgba(255,255,255,.055);cursor:not-allowed;opacity:.68}
+  .lockedHow{opacity:.62}.lockedHow .kbd{border-color:rgba(255,255,255,.08);color:#8f9ba7;background:#0e141b}
+  .uiScaleControls button{display:flex;align-items:center;justify-content:center;line-height:1;padding:0}
+}
+@media (max-height:800px) and (pointer:fine){
+  .healthWrap .powerBars{height:24px;margin-bottom:4px}
+  .powerTrack{height:7px}
+}
+
+
+/* Four-slot, infinite-ammo and upper-right HUD pass */
+@media (pointer:fine){
+  .waveCenter{top:18px;left:auto;right:22px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top right;min-width:170px}
+  .scoreTop{top:132px;right:22px;transform:scale(calc(var(--hud-base) * var(--ui-scale)));transform-origin:top right}
+  .weaponBox{grid-template-columns:76px minmax(112px,1fr);padding-left:16px}
+  .weaponBox>.weaponIcon{justify-self:center;align-self:center;margin-left:8px;transform:scale(1.62)}
+  .ammo{font-size:42px;line-height:.85}
+  .slotReorderCard{width:680px}
+  #slotReorderGrid{grid-template-columns:repeat(4,1fr)}
+  #toast{z-index:500}
+  .betweenOverlay{z-index:100}
+  .upgrade h4{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .upgradeIcon{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;flex:0 0 29px;border-radius:8px;background:rgba(85,215,255,.10);border:1px solid rgba(85,215,255,.22);color:#8ae3ff;font-style:normal;font-size:15px;box-shadow:inset 0 0 10px rgba(85,215,255,.05)}
+}
+@media (max-height:800px) and (pointer:fine){
+  .scoreTop{top:112px}
+  .slotReorderCard{width:620px}
+}
+
+
+/* Description panel, checkpoint controls and richer menu motion */
+@media (pointer:fine){
+  #menu::before{opacity:.27;animation-duration:16s;background-size:145px 145px}
+  #menu::after{opacity:.19;animation-duration:24s;background-size:205px 205px}
+  .descriptionCard{display:flex;flex-direction:column;min-height:100%}
+  .descriptionCard h4{font-size:22px;letter-spacing:.08em;margin:5px 0 9px;color:#edf4fa}
+  .descriptionCard>p.small{font-size:14px;line-height:1.55;min-height:44px}
+  .levelProgress{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}
+  .levelProgress>div{padding:11px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+  .levelProgress span{display:block;font-size:8px;letter-spacing:.14em;color:#8997a5;font-weight:900}
+  .levelProgress b{display:block;margin-top:4px;font-size:17px;color:#eef4f8}
+  .descriptionCard #records{font-size:12px;margin:3px 0 16px;color:#9daab6}
+  .runActions{margin-top:auto}.runActions button{width:100%}
+  .continueBtn{background:#315d49}.continueBtn:hover{background:#3c7259}
+  .howBriefing{font-size:13px;line-height:1.5;color:#aeb9c5;margin:0 0 12px;padding:10px 12px;border-left:3px solid rgba(255,75,62,.65);background:rgba(255,255,255,.025)}
+  .upgradeIcon{font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif;font-size:17px;background:linear-gradient(145deg,rgba(85,215,255,.16),rgba(85,215,255,.055));border-color:rgba(85,215,255,.26);filter:saturate(.88);text-shadow:0 1px 4px rgba(0,0,0,.65)}
+}
+@media (max-height:800px) and (pointer:fine){
+  .descriptionCard h4{font-size:17px;margin:2px 0 5px}
+  .descriptionCard>p.small{font-size:12px;min-height:32px}
+  .levelProgress{margin:8px 0}.levelProgress>div{padding:7px 9px}
+  .descriptionCard #records{margin-bottom:8px}
+  .howBriefing{font-size:11px;padding:7px 10px;margin-bottom:7px}
+}
+
+
+/* Level action placement and expanded description layout */
+@media (pointer:fine){
+  .runActions.menuButtons{display:flex;gap:9px;margin-top:16px!important}
+  .runActions.menuButtons button{flex:1;min-width:0}
+  .descriptionCard .levelProgress{grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}
+  .descriptionHow{width:100%;margin-top:auto}
+  .descriptionCard>p.small{min-height:112px}
+}
+@media (max-height:800px) and (pointer:fine){
+  .runActions.menuButtons{margin-top:12px!important}
+  .descriptionCard>p.small{min-height:78px;font-size:11px;line-height:1.42}
+}
+
+
+/* Neutral confirmations, intermission inventory and weapon reload colors */
+@media (pointer:fine){
+  .confirmYes,.confirmNo{box-shadow:none!important;border:1px solid rgba(255,255,255,.13);color:#edf2f6!important}
+  .confirmYes{background:#554342!important}.confirmYes:hover{background:#66504e!important}
+  .confirmNo{background:#3d4853!important}.confirmNo:hover{background:#4a5865!important}
+  .mapBtn .mapMeta{font-size:10px;line-height:1.32;margin-top:5px}
+  .descriptionCard>p.small{font-size:12.5px;line-height:1.5;min-height:98px;color:#b4c0cb}
+  .reloadSpinner{background:conic-gradient(var(--reload-color,#55d7ff) calc(var(--reload) * 1turn),rgba(255,255,255,.12) 0);box-shadow:0 0 12px color-mix(in srgb,var(--reload-color,#55d7ff) 35%,transparent)}
+  .weaponIcon.shotgun{color:#d4ad3f}
+  .weaponIcon.shotgun::before{background:#d4ad3f;box-shadow:8px 3px 0 -1px #7d6a35}
+  .betweenInventory{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.075)}
+  #betweenInventoryGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  #betweenInventoryGrid .dragSlot{min-height:68px;padding:8px}
+  #betweenInventoryGrid .dragWeapon{padding:8px}
+  .waveAnnouncement{position:absolute;left:50%;top:39%;z-index:460;transform:translate(-50%,-50%) scale(.72);opacity:0;font-size:clamp(34px,5vw,66px);font-weight:950;letter-spacing:.1em;color:#f2f6f9;text-shadow:0 4px 24px rgba(0,0,0,.8),0 0 22px rgba(255,75,62,.22);white-space:nowrap;pointer-events:none}
+  .waveAnnouncement.show{animation:waveStart 1.9s cubic-bezier(.2,.75,.2,1)}
+  @keyframes waveStart{0%{opacity:0;transform:translate(-50%,-50%) scale(.66);letter-spacing:.2em}18%{opacity:1;transform:translate(-50%,-50%) scale(1.04);letter-spacing:.1em}70%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-58%) scale(1.08)}}
+}
+@media (max-height:800px) and (pointer:fine){
+  .mapBtn .mapMeta{font-size:8.5px}
+  .descriptionCard>p.small{font-size:10.5px;min-height:68px}
+  .betweenInventory{margin-top:9px;padding-top:8px}
+  #betweenInventoryGrid .dragSlot{min-height:54px}
+}
+
+
+/* Clearer compact level summaries */
+@media (pointer:fine){
+  .mapBtn .mapMeta{font-size:11px;line-height:1.42;color:#c7d1db;font-weight:700;letter-spacing:.005em}
+}
+@media (max-height:800px) and (pointer:fine){
+  .mapBtn .mapMeta{font-size:9.5px;line-height:1.34}
+}
+
+
+/* Direct left-side inventory sorting during intermissions */
+@media (pointer:fine){
+  .weaponSlots.intermissionSort{z-index:260;pointer-events:auto}
+  .weaponSlots.intermissionSort .weaponSlot{pointer-events:auto}
+  .weaponSlot.sortable{cursor:grab;border-color:rgba(85,215,255,.2)}
+  .weaponSlot.sortable:hover{background:rgba(25,42,55,.9);border-color:rgba(85,215,255,.42)}
+  .weaponSlot.dragging{opacity:.45}
+  .weaponSlot.dragOver{outline:2px solid rgba(85,215,255,.72);background:rgba(25,48,62,.94)}
+}
+
+/* Shop affordability and visible canvas-driven menu motion */
+.shopChoice{position:relative;overflow:hidden}.shopChoice.insufficient{opacity:.48;filter:saturate(.55)}.shopChoice .shopLock{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:5px;background:linear-gradient(180deg,rgba(5,7,10,.76),rgba(5,7,10,.18) 45%,rgba(5,7,10,.34));color:#f3f5f7;font-size:10px;font-weight:950;letter-spacing:.12em;pointer-events:none}.shopChoice.insufficient button{opacity:.45}#menu{background:radial-gradient(circle at 50% 40%,rgba(28,35,45,.28),rgba(4,6,9,.62))}#menu::before,#menu::after{display:none!important}
+
+/* Final combat feedback and pointer pass */
+@media (pointer:fine){
+  .mapBtn.lockedLevel{opacity:.14!important;filter:brightness(.5) saturate(.35)}
+  .mapBtn.lockedLevel::after{background:rgba(2,3,5,.58)}
+  .shopChoice.insufficient{opacity:1;filter:none;transition:filter .16s ease,opacity .16s ease}
+  .shopChoice.insufficient:hover{opacity:.42;filter:brightness(.55) saturate(.5)}
+  .shopChoice .shopLock{display:none}
+  .shopChoice.insufficient:hover .shopLock{display:flex}
+  #pause{z-index:90}
+  #between{z-index:70}
+  #pause.controlsOpen{background:transparent}
+  html,body,button,.screen,.panel{cursor:none!important}
+  #gameCursor{position:fixed;z-index:9999;display:none;width:17px;height:22px;pointer-events:none;transform:translate(2px,2px);filter:drop-shadow(0 2px 2px rgba(0,0,0,.75))}
+  #gameCursor.shown{display:block}
+  #gameCursor::before{content:'';position:absolute;inset:0;background:#eef5fa;clip-path:polygon(0 0,0 88%,25% 66%,40% 100%,54% 93%,39% 60%,72% 60%);border-radius:2px}
+  #gameCursor::after{content:'';position:absolute;inset:2px;background:#17202a;clip-path:polygon(0 0,0 72%,23% 53%,40% 86%,47% 82%,31% 48%,61% 48%)}
+  #crosshair.reloading::marker{display:none}
+  #crosshair.reloading{width:34px;height:34px}
+  #crosshair.reloading::before{width:34px;height:34px;left:0;top:0;border-radius:50%;background:conic-gradient(var(--reload-color) calc(var(--reload-progress) * 1turn),rgba(255,255,255,.12) 0);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%);mask:radial-gradient(circle,transparent 58%,#000 60%)}
+  #crosshair.reloading::after{width:18px;height:2px;left:8px;top:16px;background:rgba(255,255,255,.78)}
+}
+#powerVignette{position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 0 115px 26px rgba(242,193,78,var(--double-vig,0)),inset 0 0 105px 22px rgba(166,87,255,var(--rapid-vig,0));transition:box-shadow .18s linear}
+
+/* Persistent healing, boss field, and victory presentation */
+#gameover.victory #endTitle{color:#68e08f;font-size:54px!important;letter-spacing:.06em;text-shadow:0 0 18px rgba(89,217,142,.52),0 3px 0 rgba(0,0,0,.42)}
+#gameover.victory #endSubtitle{color:#9ff0bc;font-weight:850}
+#gameover .victorySecondary{background:#48515b!important;border-color:#66717d!important;color:#d8dde2!important;box-shadow:none!important}
+
+/* Level selector numbering and emphasis */
+.mapBtn .stars{font-size:16px;line-height:1.15;letter-spacing:.08em;text-shadow:0 0 7px rgba(242,193,78,.28)}
+.mapBtn .mapLevel{font-variant-numeric:normal}
+
+/* Pointer certainty, compact reload ring, and clean wave intro */
+@media (pointer:fine){
+  *,canvas,#game,.screen,.panel,.pausePanel{cursor:none!important}
+  #gameCursor{width:21px!important;height:28px!important;z-index:2147483647!important;filter:drop-shadow(1px 0 #05080b) drop-shadow(-1px 0 #05080b) drop-shadow(0 1px #05080b) drop-shadow(0 -1px #05080b) drop-shadow(0 3px 3px rgba(0,0,0,.72))!important}
+  #gameCursor.shown{display:block!important}
+  #crosshair.reloading{width:28px;height:28px}
+  #crosshair.reloading::before{width:28px;height:28px;left:0;top:0;-webkit-mask:radial-gradient(circle,transparent 56%,#000 59%);mask:radial-gradient(circle,transparent 56%,#000 59%)}
+  #crosshair.reloading::after{width:14px;height:2px;left:7px;top:13px}
+  .waveAnnouncement{padding:14px 42px;font-size:clamp(30px,4.3vw,56px);letter-spacing:.075em;color:#f5fbff;background:linear-gradient(90deg,transparent,rgba(8,14,20,.82) 18%,rgba(13,23,31,.9) 50%,rgba(8,14,20,.82) 82%,transparent);border-top:1px solid rgba(137,220,255,.3);border-bottom:1px solid rgba(137,220,255,.22);text-shadow:0 2px 3px rgba(0,0,0,.62);box-shadow:none}
+  .waveAnnouncement.show{animation:waveStartClean 1.9s cubic-bezier(.22,.72,.2,1)}
+  @keyframes waveStartClean{0%{opacity:0;transform:translate(-50%,-45%) scale(.94);letter-spacing:.13em}18%{opacity:1;transform:translate(-50%,-50%) scale(1);letter-spacing:.075em}72%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-58%) scale(1.015)}}
+}
+
