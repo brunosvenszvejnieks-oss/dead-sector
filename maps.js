@@ -13,9 +13,21 @@ function makeMap(idx){
   obs.push({x:620,y:340,w:280,h:170,type:'stone'},{x:1280,y:300,w:310,h:190,type:'stone'},{x:850,y:930,w:450,h:170,type:'stone'},{x:150,y:650,w:250,h:90,type:'wood'},{x:1710,y:780,w:280,h:100,type:'wood'});
   spawns.push({x:60,y:60},{x:1100,y:40},{x:2140,y:100},{x:2150,y:1350},{x:1100,y:1450},{x:50,y:1360});
  }else if(m.id==='metro'){
-  obs.push({x:350,y:0,w:120,h:520,type:'wall'},{x:350,y:820,w:120,h:630,type:'wall'},{x:920,y:160,w:130,h:370,type:'wall'},{x:920,y:920,w:130,h:370,type:'wall'},{x:1500,y:0,w:120,h:510,type:'wall'},{x:1500,y:840,w:120,h:610,type:'wall'},{x:520,y:610,w:250,h:110,type:'metal'},{x:560,y:1040,w:260,h:100,type:'metal'},{x:1260,y:600,w:240,h:110,type:'wood'},{x:1280,y:1020,w:240,h:100,type:'wood'});
+  obs.push(
+   {x:350,y:0,w:120,h:520,type:'metroPillar'},{x:350,y:820,w:120,h:630,type:'metroPillar'},
+   {x:920,y:160,w:130,h:370,type:'metroPillar'},{x:920,y:920,w:130,h:370,type:'metroPillar'},
+   {x:1500,y:0,w:120,h:510,type:'metroPillar'},{x:1500,y:840,w:120,h:610,type:'metroPillar'},
+   {x:350,y:520,w:260,h:68,type:'metroPillar'},{x:760,y:852,w:290,h:68,type:'metroPillar'},{x:1500,y:510,w:280,h:68,type:'metroPillar'},
+   {x:520,y:650,w:250,h:110,type:'metal'},{x:560,y:1080,w:260,h:100,type:'metal'},
+   {x:1260,y:640,w:240,h:110,type:'wood'},{x:1280,y:1060,w:240,h:100,type:'wood'}
+  );
   spawns.push({x:50,y:100},{x:60,y:1350},{x:650,y:50},{x:1320,y:70},{x:2040,y:100},{x:2050,y:1350});
-  barr.push({x:825,y:610,w:24,h:120,hp:500,maxHp:500,material:'metroBarrier'},{x:1200,y:600,w:24,h:120,hp:500,maxHp:500,material:'metroBarrier'},{x:980,y:555,w:120,h:24,hp:500,maxHp:500,material:'metroBarrier'},{x:985,y:850,w:120,h:24,hp:500,maxHp:500,material:'metroBarrier'});
+  barr.push(
+   {x:770,y:690,w:150,h:24,hp:150,maxHp:150,playerPass:true,bulletPass:true},
+   {x:1050,y:680,w:210,h:24,hp:150,maxHp:150,playerPass:true,bulletPass:true},
+   {x:820,y:1120,w:100,h:24,hp:150,maxHp:150,playerPass:true,bulletPass:true},
+   {x:1050,y:1100,w:230,h:24,hp:150,maxHp:150,playerPass:true,bulletPass:true}
+  );
  }else if(m.id==='lab'){
   obs.push({x:440,y:230,w:260,h:210,type:'lab'},{x:930,y:180,w:180,h:390,type:'lab'},{x:1360,y:250,w:250,h:210,type:'lab'},{x:300,y:890,w:330,h:190,type:'lab'},{x:850,y:860,w:350,h:210,type:'lab'},{x:1460,y:850,w:260,h:210,type:'lab'});
   spawns.push({x:50,y:50},{x:1000,y:35},{x:1940,y:60},{x:1940,y:1330},{x:1000,y:1360},{x:60,y:1320});
