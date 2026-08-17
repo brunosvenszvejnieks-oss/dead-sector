@@ -258,3 +258,8 @@
   #crosshair.reloading::after{width:18px;height:2px;left:8px;top:16px;background:rgba(255,255,255,.78)}
 }
 #powerVignette{position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 0 115px 26px rgba(242,193,78,var(--double-vig,0)),inset 0 0 105px 22px rgba(166,87,255,var(--rapid-vig,0));transition:box-shadow .18s linear}
+
+/* Persistent healing, boss field, and victory presentation */
+#gameover.victory #endTitle{color:#68e08f;font-size:54px!important;letter-spacing:.06em;text-shadow:0 0 18px rgba(89,217,142,.52),0 3px 0 rgba(0,0,0,.42)}
+#gameover.victory #endSubtitle{color:#9ff0bc;font-weight:850}
+#gameover .victorySecondary{background:#48515b!important;border-color:#66717d!important;color:#d8dde2!important;box-shadow:none!important}
