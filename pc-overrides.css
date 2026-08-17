@@ -232,3 +232,6 @@
   .weaponSlot.dragging{opacity:.45}
   .weaponSlot.dragOver{outline:2px solid rgba(85,215,255,.72);background:rgba(25,48,62,.94)}
 }
+
+/* Shop affordability and visible canvas-driven menu motion */
+.shopChoice{position:relative;overflow:hidden}.shopChoice.insufficient{opacity:.48;filter:saturate(.55)}.shopChoice .shopLock{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:5px;background:linear-gradient(180deg,rgba(5,7,10,.76),rgba(5,7,10,.18) 45%,rgba(5,7,10,.34));color:#f3f5f7;font-size:10px;font-weight:950;letter-spacing:.12em;pointer-events:none}.shopChoice.insufficient button{opacity:.45}#menu{background:radial-gradient(circle at 50% 40%,rgba(28,35,45,.28),rgba(4,6,9,.62))}#menu::before,#menu::after{display:none!important}
