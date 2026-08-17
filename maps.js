@@ -10,7 +10,7 @@ const maps=[
 function makeMap(idx){
  const m=maps[idx],obs=[],spawns=[],barr=[];
  if(m.id==='yard'){
-  obs.push({x:620,y:340,w:280,h:170,type:'building'},{x:1280,y:300,w:310,h:190,type:'building'},{x:850,y:930,w:450,h:170,type:'building'},{x:150,y:650,w:250,h:90,type:'crate'},{x:1710,y:780,w:280,h:100,type:'crate'});
+  obs.push({x:620,y:340,w:280,h:170,type:'stone'},{x:1280,y:300,w:310,h:190,type:'stone'},{x:850,y:930,w:450,h:170,type:'stone'},{x:150,y:650,w:250,h:90,type:'wood'},{x:1710,y:780,w:280,h:100,type:'wood'});
   spawns.push({x:60,y:60},{x:1100,y:40},{x:2140,y:100},{x:2150,y:1350},{x:1100,y:1450},{x:50,y:1360});
  }else if(m.id==='metro'){
   obs.push({x:350,y:0,w:120,h:560,type:'wall'},{x:350,y:780,w:120,h:670,type:'wall'},{x:920,y:250,w:130,h:950,type:'wall'},{x:1500,y:0,w:120,h:550,type:'wall'},{x:1500,y:800,w:120,h:650,type:'wall'},{x:470,y:560,w:330,h:140,type:'train'},{x:1120,y:610,w:380,h:140,type:'train'});
