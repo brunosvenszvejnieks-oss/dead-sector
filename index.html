@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <title>DEAD SECTOR — 2D Zombies</title>
-<link rel="stylesheet" href="style.css?v=base2" />
+<link rel="stylesheet" href="style.css?v=base3" />
 <link rel="stylesheet" href="pc-overrides.css?v=ui22" />
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="scoreTop pill"><div class="label">SCORE</div><div id="scoreNum" class="bigNum score">0</div></div><div id="waveAnnouncement" class="waveAnnouncement"></div>
     <div id="weaponSlots" class="weaponSlots"><div class="slotHint">INVENTORY</div><div class="weaponSlot" data-slot="0"><span class="slotNum">1</span><span class="weaponIcon pistol" aria-hidden="true"></span><span class="slotWeapon">M9 Sidearm</span></div><div class="weaponSlot" data-slot="1"><span class="slotNum">2</span><span class="weaponIcon empty" aria-hidden="true"></span><span class="slotWeapon">EMPTY</span></div><div class="weaponSlot" data-slot="2"><span class="slotNum">3</span><span class="weaponIcon empty" aria-hidden="true"></span><span class="slotWeapon">EMPTY</span></div><div class="weaponSlot" data-slot="3"><span class="slotNum">4</span><span class="weaponIcon empty" aria-hidden="true"></span><span class="slotWeapon">EMPTY</span></div></div>
     <div class="hudBottom"><div class="healthWrap healthLarge"><div id="powerBars" class="powerBars"><div id="rapidBar" class="powerBar rapidBar"><div class="label">OVERDRIVE</div><div class="powerTrack"><i></i></div></div><div id="doubleBar" class="powerBar doubleBar"><div id="doubleLabel" class="label">2× POINTS</div><div class="powerTrack"><i></i></div></div></div><div class="label">HEALTH</div><div class="bar healthBar"><div id="hpFill" class="fill"></div><div id="overhealFill" class="overhealFill"></div><span id="hpText" class="healthValue">100 / 100</span></div></div><div class="hudAmmoStack"><div id="grenadeTab" class="pill grenadeTab"><span class="grenadeIcon" aria-hidden="true"></span><span id="grenadeText">0</span></div><div class="pill weaponBox"><span id="hudWeaponIcon" class="weaponIcon pistol" aria-hidden="true"></span><div class="weaponReadout"><div id="weaponName" class="weaponName">M9 Sidearm</div><div id="ammoText" class="ammo">12</div></div></div></div></div>
-    <div id="interaction"></div><div id="toast"></div><div id="damageVignette"></div><div id="powerVignette"></div><div id="crosshair"></div><div id="gameCursor" aria-hidden="true"></div>
+    <div id="interaction"></div><div id="toast"></div><div id="damageVignette"></div><div id="freezeVignette"></div><div id="powerVignette"></div><div id="crosshair"></div><div id="gameCursor" aria-hidden="true"></div>
     <div id="slotReorder" class="slotReorder hidden"><div class="slotReorderCard"><div class="slotReorderTitle">INVENTORY</div><div class="small">Drag a weapon onto another slot to swap them. Press your Inventory key again to close.</div><div id="slotReorderGrid"></div></div></div>
     <div id="mobileControls"><button id="mobilePauseBtn" aria-label="Pause">Ⅱ</button><div id="moveStick" class="stickZone"><div class="stickKnob"></div></div><div id="aimStick" class="stickZone"><div class="stickKnob"></div></div><div class="touchActions"><button class="touchBtn" id="touchReload">RELOAD</button><button class="touchBtn" id="touchGrenade">GRENADE</button><button class="touchBtn big" id="touchInteract">USE</button><button class="touchBtn big" id="touchWeapon">SWITCH WEAPON</button></div></div>
   </div>
@@ -26,10 +26,10 @@
   <div id="between" class="screen hidden betweenOverlay"><div class="panel betweenPanel"><h2>WAVE CLEARED</h2><p>Keep moving while you choose one upgrade or buy a weapon.</p><div id="betweenLayout"><div><div class="betweenSectionTitle">FIELD UPGRADE</div><div id="upgradeGrid" class="upgradeGrid"></div></div><div><div class="betweenSectionTitle">WEAPON SHOP</div><div id="betweenWeaponShop"></div></div></div></div></div>
   <div id="gameover" class="screen hidden"><div class="panel" style="max-width:650px;text-align:center"><div id="endSubtitle" class="subtitle">Containment failed</div><h2 id="endTitle" style="font-size:44px;margin:0">YOU DIED</h2><div id="endStats" class="stats"></div><div class="row" style="justify-content:center"><button id="againBtn" class="primary">RUN IT BACK</button><button id="menuBtn">MAIN MENU</button></div></div></div>
 </div>
-<script src="maps.js?v=metro3"></script>
+<script src="maps.js?v=metro4"></script>
 <script src="audio.js?v=heavy5"></script>
 <script src="mobile.js"></script>
 <script src="pc-ui.js"></script>
-<script src="game.js?v=levels26"></script>
+<script src="game.js?v=frost27"></script>
 </body>
 </html>
