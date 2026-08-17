@@ -267,3 +267,16 @@
 /* Level selector numbering and emphasis */
 .mapBtn .stars{font-size:16px;line-height:1.15;letter-spacing:.08em;text-shadow:0 0 7px rgba(242,193,78,.28)}
 .mapBtn .mapLevel{font-variant-numeric:normal}
+
+/* Pointer certainty, compact reload ring, and clean wave intro */
+@media (pointer:fine){
+  *,canvas,#game,.screen,.panel,.pausePanel{cursor:none!important}
+  #gameCursor{width:21px!important;height:28px!important;z-index:2147483647!important;filter:drop-shadow(1px 0 #05080b) drop-shadow(-1px 0 #05080b) drop-shadow(0 1px #05080b) drop-shadow(0 -1px #05080b) drop-shadow(0 3px 3px rgba(0,0,0,.72))!important}
+  #gameCursor.shown{display:block!important}
+  #crosshair.reloading{width:28px;height:28px}
+  #crosshair.reloading::before{width:28px;height:28px;left:0;top:0;-webkit-mask:radial-gradient(circle,transparent 56%,#000 59%);mask:radial-gradient(circle,transparent 56%,#000 59%)}
+  #crosshair.reloading::after{width:14px;height:2px;left:7px;top:13px}
+  .waveAnnouncement{padding:14px 42px;font-size:clamp(30px,4.3vw,56px);letter-spacing:.075em;color:#f5fbff;background:linear-gradient(90deg,transparent,rgba(8,14,20,.82) 18%,rgba(13,23,31,.9) 50%,rgba(8,14,20,.82) 82%,transparent);border-top:1px solid rgba(137,220,255,.3);border-bottom:1px solid rgba(137,220,255,.22);text-shadow:0 2px 3px rgba(0,0,0,.62);box-shadow:none}
+  .waveAnnouncement.show{animation:waveStartClean 1.9s cubic-bezier(.22,.72,.2,1)}
+  @keyframes waveStartClean{0%{opacity:0;transform:translate(-50%,-45%) scale(.94);letter-spacing:.13em}18%{opacity:1;transform:translate(-50%,-50%) scale(1);letter-spacing:.075em}72%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-58%) scale(1.015)}}
+}
