@@ -26,6 +26,7 @@ const FROST_ATTACK_RANGE = 300,
   FROST_RAISE_TIME = 0.5,
   FROST_LOWER_TIME = 0.5,
   FROST_COOLDOWN = 2.5,
+  FROST_SLOW_DURATION = 2,
   ELITE_FIELD_RADIUS_MULTIPLIER = 4;
 let W = innerWidth,
   H = innerHeight,
@@ -1122,7 +1123,13 @@ function updateHUD() {
   UI.powerVignette.style.setProperty('--double-vig', doubleGlow);
   UI.powerVignette.style.setProperty('--rapid-vig', purpleGlow);
   const freezeAlpha =
-    p.freeze <= 0 ? 0 : p.freeze > 0.9 ? (1 - p.freeze) / 0.1 : p.freeze < 0.1 ? p.freeze / 0.1 : 1;
+    p.freeze <= 0
+      ? 0
+      : p.freeze > FROST_SLOW_DURATION - 0.1
+        ? (FROST_SLOW_DURATION - p.freeze) / 0.1
+        : p.freeze < 0.1
+          ? p.freeze / 0.1
+          : 1;
   UI.freezeVignette.style.opacity = clamp(freezeAlpha, 0, 1);
   UI.doubleLabel.textContent = `${game.power.doubleMult || 2}× POINTS`;
   UI.rapidBar.querySelector('i').style.transform = `scaleX(${rapid})`;
@@ -1395,7 +1402,7 @@ function update(dt) {
       continue;
     }
     if (Math.hypot(d.x - p.x, d.y - p.y) < d.r + p.r) {
-      p.freeze = 1;
+      p.freeze = FROST_SLOW_DURATION;
       game.enemyDarts.splice(i, 1);
       burst(p.x, p.y, '#9de7ff', 14, 85);
       damagePlayer(2, true);
