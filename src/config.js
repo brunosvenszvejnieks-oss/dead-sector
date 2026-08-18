@@ -41,7 +41,7 @@ export const weaponDefs = {
     range: 35 * RANGE_SCALE,
     sound: 'shotgun',
     color: '#f2c14e',
-    cost: 5000,
+    cost: 6000,
   },
   rifle: {
     name: 'AR-47',
@@ -55,7 +55,7 @@ export const weaponDefs = {
     range: 100 * RANGE_SCALE,
     sound: 'ak',
     color: '#ff8f66',
-    cost: 12000,
+    cost: 15000,
   },
 };
 

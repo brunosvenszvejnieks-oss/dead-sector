@@ -56,9 +56,9 @@ test('published gameplay contract remains unchanged', async () => {
   assert.equal(weaponDefs.pistol.rangeRating, 70);
   assert.equal(weaponDefs.pistol.range, 70 * RANGE_SCALE);
   assert.equal(weaponDefs.pistol2.rangeRating, 60);
-  assert.equal(weaponDefs.shotgun.cost, 5_000);
+  assert.equal(weaponDefs.shotgun.cost, 6_000);
   assert.equal(weaponDefs.pistol2.cost, 2_500);
-  assert.equal(weaponDefs.rifle.cost, 12_000);
+  assert.equal(weaponDefs.rifle.cost, 15_000);
   assert.deepEqual(
     WALKER_VARIANTS.map(({ speedBonus }) => speedBonus),
     [0, 4, 8, 12],
