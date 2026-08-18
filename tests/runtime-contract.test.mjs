@@ -48,6 +48,7 @@ test('published gameplay contract remains unchanged', async () => {
     'p.freeze = 1',
     'damagePlayer(2, true)',
     'speed = 265',
+    'FROST_COOLDOWN = 2.5',
     "shootState: 'ready'",
     "e.shootState = 'raising'",
     "e.shootState = 'lowering'",

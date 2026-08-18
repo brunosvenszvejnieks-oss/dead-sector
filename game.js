@@ -25,7 +25,7 @@ const $ = (id) => document.getElementById(id),
 const FROST_ATTACK_RANGE = 300,
   FROST_RAISE_TIME = 0.5,
   FROST_LOWER_TIME = 0.5,
-  FROST_COOLDOWN = 3;
+  FROST_COOLDOWN = 2.5;
 let W = innerWidth,
   H = innerHeight,
   DPR = Math.min(devicePixelRatio || 1, 2),
