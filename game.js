@@ -260,6 +260,8 @@ function renderHowControls() {
 }
 function showPausePane(which) {
   const c = which === 'controls';
+  $('pauseTitle').textContent = 'OPERATION PAUSED';
+  $('pauseSubtitle').classList.remove('hidden');
   UI.pause.classList.toggle('controlsOpen', c);
   $('pauseConfirmPane')?.classList.add('hidden');
   $('pauseMainPane').classList.toggle('hidden', c);
@@ -2389,8 +2391,10 @@ $('resumeBtn').onclick = () => {
 };
 let confirmAction = null;
 
-function showConfirm(message, action) {
+function showConfirm(message, action, title = 'OPERATION PAUSED') {
   confirmAction = action;
+  $('pauseTitle').textContent = title;
+  $('pauseSubtitle').classList.add('hidden');
   $('confirmMessage').textContent = message;
   $('pauseMainPane').classList.add('hidden');
   $('pauseControlsPane').classList.add('hidden');
@@ -2399,6 +2403,8 @@ function showConfirm(message, action) {
 }
 
 function closeConfirm() {
+  $('pauseTitle').textContent = 'OPERATION PAUSED';
+  $('pauseSubtitle').classList.remove('hidden');
   $('pauseConfirmPane').classList.add('hidden');
   $('pauseMainPane').classList.remove('hidden');
   confirmAction = null;
@@ -2422,6 +2428,7 @@ $('quitBtn').onclick = () =>
       UI.menu.classList.remove('hidden');
       renderMapList();
     },
+    'LEAVE?',
   );
 $('confirmYes').onclick = () => {
   const action = confirmAction;

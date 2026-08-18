@@ -7,7 +7,7 @@
       content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>DEAD SECTOR — 2D Zombies</title>
-    <link rel="stylesheet" href="style.css?v=visual2" />
+    <link rel="stylesheet" href="style.css?v=visual3" />
   </head>
   <body>
     <div id="rotateOverlay">
@@ -159,8 +159,8 @@
       </div>
       <div id="pause" class="screen hidden">
         <div class="panel pausePanel">
-          <h2>OPERATION PAUSED</h2>
-          <p class="small">The sector is frozen.</p>
+          <h2 id="pauseTitle">OPERATION PAUSED</h2>
+          <p id="pauseSubtitle" class="small">The sector is frozen.</p>
           <button id="pauseMainTab" class="hidden" aria-hidden="true" tabindex="-1">PAUSE</button
           ><button id="pauseControlsTab" class="hidden" aria-hidden="true" tabindex="-1">
             CONTROLS
@@ -225,6 +225,6 @@
     <script src="audio.js?v=heavy5"></script>
     <script src="mobile.js"></script>
     <script src="pc-ui.js"></script>
-    <script type="module" src="game.js?v=visual2"></script>
+    <script type="module" src="game.js?v=visual3"></script>
   </body>
 </html>
