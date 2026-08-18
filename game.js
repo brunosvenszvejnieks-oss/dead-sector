@@ -2,7 +2,11 @@ import { RANGE_SCALE, WALKER_VARIANTS, weaponDefs } from './src/config.js?v=bala
 import { TAU, circleRect, clamp, lerp, lineRect, rand, resolveCircleRect } from './src/math.js';
 import { findPath, hasClearPath } from './src/navigation.js?v=precision1';
 import { pathLength, pointOnPath, traceShot } from './src/projectiles.js';
-import { ACCURACY_HITS_REQUIRED, accuracyMultiplier, barricadeRepairCost } from './src/scoring.js';
+import {
+  ACCURACY_HITS_REQUIRED,
+  accuracyMultiplier,
+  barricadeRepairCost,
+} from './src/scoring.js?v=balance9';
 import { makeMap, maps } from './maps.js';
 
 /*

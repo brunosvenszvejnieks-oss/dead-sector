@@ -68,7 +68,7 @@ test('published gameplay contract remains unchanged', async () => {
 test('accuracy bonus and proportional barricade repair costs remain balanced', () => {
   assert.equal(accuracyMultiplier(9), 1);
   assert.equal(accuracyMultiplier(10), ACCURACY_SCORE_MULTIPLIER);
-  assert.equal(ACCURACY_SCORE_MULTIPLIER, 1.5);
+  assert.equal(ACCURACY_SCORE_MULTIPLIER, 1.25);
   assert.equal(barricadeRepairCost({ hp: 0, maxHp: 150 }), 300);
   assert.equal(barricadeRepairCost({ hp: 75, maxHp: 150 }), 150);
   assert.equal(barricadeRepairCost({ hp: 149, maxHp: 150 }), 5);

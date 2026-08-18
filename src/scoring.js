@@ -1,5 +1,5 @@
 export const ACCURACY_HITS_REQUIRED = 10;
-export const ACCURACY_SCORE_MULTIPLIER = 1.5;
+export const ACCURACY_SCORE_MULTIPLIER = 1.25;
 export const MAX_BARRICADE_REPAIR_COST = 300;
 
 export function accuracyMultiplier(streak) {
