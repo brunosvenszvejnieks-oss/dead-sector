@@ -41,6 +41,7 @@ test('published gameplay contract remains unchanged', async () => {
     'speed: (86 + w * 0.85)',
     'dmg: waveDamage(40)',
     'dmg: waveDamage(70)',
+    '300 * (1 - d / 260)',
     'game.wave >= 10',
     'game.healDropChance * (game.wave > 6 ? 0.5 : 1)',
     'p.freeze = 1',

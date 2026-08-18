@@ -618,7 +618,7 @@ function explode(g) {
   for (const e of [...game.enemies]) {
     const d = Math.hypot(e.x - g.x, e.y - g.y);
     if (d < 215) {
-      e.hp -= Math.max(0, 280 * (1 - d / 260)) * game.player.damageMult;
+      e.hp -= Math.max(0, 300 * (1 - d / 260)) * game.player.damageMult;
       if (e.hp <= 0) killEnemy(e);
     }
   }
