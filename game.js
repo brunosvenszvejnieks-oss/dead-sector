@@ -511,6 +511,7 @@ function spawnEnemy() {
   game.enemies.push({
     x: s.x + rand(-25, 25),
     y: s.y + rand(-25, 25),
+    type,
     ...st,
     maxHp: st.hp,
     attackCd: rand(0, 0.3),
