@@ -1,7 +1,7 @@
 import { clamp, lineRect } from './math.js';
 
-const CELL_SIZE = 32;
-const SEARCH_LIMIT = 12_000;
+const CELL_SIZE = 24;
+const SEARCH_LIMIT = 20_000;
 
 function pushCandidate(heap, candidate) {
   heap.push(candidate);
@@ -36,15 +36,27 @@ function popCandidate(heap) {
 function cellBlocked(map, column, row, radius = 12) {
   const x = column * CELL_SIZE + CELL_SIZE / 2;
   const y = row * CELL_SIZE + CELL_SIZE / 2;
+  if (x - radius <= 0 || y - radius <= 0 || x + radius >= map.size[0] || y + radius >= map.size[1])
+    return true;
   const containsPoint = (obstacle) =>
-    x > obstacle.x - radius &&
-    x < obstacle.x + obstacle.w + radius &&
-    y > obstacle.y - radius &&
-    y < obstacle.y + obstacle.h + radius;
+    x >= obstacle.x - radius &&
+    x <= obstacle.x + obstacle.w + radius &&
+    y >= obstacle.y - radius &&
+    y <= obstacle.y + obstacle.h + radius;
   return (
     map.obs.some(containsPoint) ||
     map.barr.some((barrier) => barrier.hp > 0 && containsPoint(barrier))
   );
+}
+
+function wallProximityCost(isBlocked, column, row) {
+  let blockedNeighbors = 0;
+  for (let offsetY = -1; offsetY <= 1; offsetY++)
+    for (let offsetX = -1; offsetX <= 1; offsetX++) {
+      if (!offsetX && !offsetY) continue;
+      if (isBlocked(column + offsetX, row + offsetY)) blockedNeighbors++;
+    }
+  return blockedNeighbors * 0.08;
 }
 
 export function hasClearPath(map, entity, startX, startY, endX, endY) {
@@ -94,6 +106,17 @@ function closestOpenCell(map, column, row, columns, rows, radius) {
 export function findPath(map, entity, targetX, targetY) {
   const columns = Math.ceil(map.size[0] / CELL_SIZE);
   const rows = Math.ceil(map.size[1] / CELL_SIZE);
+  const key = (column, row) => row * columns + column;
+  const blockedCells = new Uint8Array(columns * rows);
+  for (let row = 0; row < rows; row++)
+    for (let column = 0; column < columns; column++)
+      blockedCells[key(column, row)] = cellBlocked(map, column, row, entity.r) ? 1 : 0;
+  const isBlocked = (column, row) =>
+    column < 0 ||
+    row < 0 ||
+    column >= columns ||
+    row >= rows ||
+    blockedCells[key(column, row)] === 1;
   const requestedStartColumn = clamp(Math.floor(entity.x / CELL_SIZE), 0, columns - 1);
   const requestedStartRow = clamp(Math.floor(entity.y / CELL_SIZE), 0, rows - 1);
   const requestedGoalColumn = clamp(Math.floor(targetX / CELL_SIZE), 0, columns - 1);
@@ -118,7 +141,6 @@ export function findPath(map, entity, targetX, targetY) {
   const startRow = startCell.row;
   const goalColumn = goalCell.column;
   const goalRow = goalCell.row;
-  const key = (column, row) => row * columns + column;
   const start = key(startColumn, startRow);
   const goal = key(goalColumn, goalRow);
   const open = [{ x: startColumn, y: startRow, g: 0, f: 0 }];
@@ -163,11 +185,7 @@ export function findPath(map, entity, targetX, targetY) {
       let index = 0;
       while (index < rawPath.length) {
         let best = index;
-        for (
-          let lookAhead = Math.min(rawPath.length - 1, index + 7);
-          lookAhead > index;
-          lookAhead--
-        ) {
+        for (let lookAhead = rawPath.length - 1; lookAhead > index; lookAhead--) {
           const candidate = rawPath[lookAhead];
           if (hasClearPath(map, entity, anchorX, anchorY, candidate.x, candidate.y)) {
             best = lookAhead;
@@ -190,25 +208,26 @@ export function findPath(map, entity, targetX, targetY) {
         nextRow < 0 ||
         nextColumn >= columns ||
         nextRow >= rows ||
-        cellBlocked(map, nextColumn, nextRow, entity.r)
+        isBlocked(nextColumn, nextRow)
       ) {
         continue;
       }
       if (
         offsetX &&
         offsetY &&
-        (cellBlocked(map, current.x + offsetX, current.y, entity.r) ||
-          cellBlocked(map, current.x, current.y + offsetY, entity.r))
+        (isBlocked(current.x + offsetX, current.y) || isBlocked(current.x, current.y + offsetY))
       ) {
         continue;
       }
 
       const nextKey = key(nextColumn, nextRow);
-      const nextCost = current.g + stepCost;
+      const nextCost = current.g + stepCost + wallProximityCost(isBlocked, nextColumn, nextRow);
       if (nextCost < (costs.get(nextKey) ?? Infinity)) {
         costs.set(nextKey, nextCost);
         cameFrom.set(nextKey, currentKey);
-        const heuristic = Math.hypot(nextColumn - goalColumn, nextRow - goalRow);
+        const horizontal = Math.abs(nextColumn - goalColumn),
+          vertical = Math.abs(nextRow - goalRow),
+          heuristic = Math.max(horizontal, vertical) + 0.414 * Math.min(horizontal, vertical);
         pushCandidate(open, {
           x: nextColumn,
           y: nextRow,

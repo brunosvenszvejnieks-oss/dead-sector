@@ -140,6 +140,34 @@ test('navigation respects obstacles and live barriers', () => {
   assert.equal(hasClearPath(blockedMap, entity, 24, 24, 200, 24), false);
   assert.ok(findPath(blockedMap, entity, 200, 24).length > 0);
 
+  const corridorMap = {
+    size: [360, 300],
+    obs: [
+      { x: 90, y: 0, w: 35, h: 210 },
+      { x: 215, y: 90, w: 35, h: 210 },
+    ],
+    barr: [],
+  };
+  const corridorEntity = { x: 35, y: 35, r: 18 };
+  const corridorPath = findPath(corridorMap, corridorEntity, 320, 260);
+  assert.ok(corridorPath.length > 0, 'large zombies must navigate offset walls');
+  let segmentStart = corridorEntity;
+  for (const waypoint of corridorPath) {
+    assert.equal(
+      hasClearPath(
+        corridorMap,
+        corridorEntity,
+        segmentStart.x,
+        segmentStart.y,
+        waypoint.x,
+        waypoint.y,
+      ),
+      true,
+      'smoothed navigation segments must preserve body clearance',
+    );
+    segmentStart = waypoint;
+  }
+
   const metro = makeMap(1);
   const metroTarget = { x: metro.size[0] / 2, y: metro.size[1] / 2 };
   for (const spawn of metro.spawns) {

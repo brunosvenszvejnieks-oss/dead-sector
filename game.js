@@ -1,6 +1,6 @@
 import { WALKER_VARIANTS, weaponDefs } from './src/config.js?v=balance8';
 import { TAU, circleRect, clamp, lerp, lineRect, rand, resolveCircleRect } from './src/math.js';
-import { findPath, hasClearPath } from './src/navigation.js?v=precision1';
+import { findPath, hasClearPath } from './src/navigation.js?v=precision2';
 import { pathLength, pointOnPath, traceShot } from './src/projectiles.js';
 import {
   ACCURACY_HITS_REQUIRED,
@@ -519,6 +519,11 @@ function spawnEnemy() {
     hitFlash: 0,
     path: [],
     pathTimer: 0,
+    pathGoalX: 0,
+    pathGoalY: 0,
+    navLastX: s.x,
+    navLastY: s.y,
+    stuckTime: 0,
     look: Math.random(),
     addon,
     stunPulse: 3,
@@ -1128,14 +1133,26 @@ function updateHUD() {
 // Navigation grid, pathfinding, and enemy separation
 // ─────────────────────────────────────────────────────────────
 function moveEnemy(e, dt, p) {
+  const previousMove = Math.hypot(e.x - e.navLastX, e.y - e.navLastY);
+  e.stuckTime = previousMove < e.speed * dt * 0.22 ? e.stuckTime + dt : 0;
+  e.navLastX = e.x;
+  e.navLastY = e.y;
+  if (e.stuckTime > 0.18) {
+    e.path.length = 0;
+    e.pathTimer = 0;
+    e.stuckTime = 0;
+  }
   e.pathTimer -= dt;
   let target = p;
   if (!hasClearPath(game.map, e, e.x, e.y, p.x, p.y)) {
-    if (e.pathTimer <= 0 || !e.path.length) {
+    const targetMoved = Math.hypot(p.x - e.pathGoalX, p.y - e.pathGoalY) > 48;
+    if (e.pathTimer <= 0 || !e.path.length || targetMoved) {
       e.path = findPath(game.map, e, p.x, p.y);
-      e.pathTimer = 0.12 + Math.random() * 0.08;
+      e.pathGoalX = p.x;
+      e.pathGoalY = p.y;
+      e.pathTimer = 0.24 + Math.random() * 0.12;
     }
-    while (e.path.length && Math.hypot(e.x - e.path[0].x, e.y - e.path[0].y) < 18) e.path.shift();
+    while (e.path.length && Math.hypot(e.x - e.path[0].x, e.y - e.path[0].y) < 14) e.path.shift();
     if (e.path.length) {
       let best = 0;
       for (let i = Math.min(e.path.length - 1, 5); i > 0; i--)
