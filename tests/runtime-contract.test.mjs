@@ -46,10 +46,11 @@ test('published gameplay contract remains unchanged', async () => {
     'game.healDropChance * (game.wave > 6 ? 0.5 : 1)',
     'p.freeze = 1',
     'damagePlayer(2, true)',
-    "shootState: 'cooldown'",
+    "shootState: 'ready'",
     "e.shootState = 'raising'",
     "e.shootState = 'lowering'",
-    'Math.hypot(e.x - p.x, e.y - p.y) <= 300',
+    'Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE',
+    'function drawFrostShooter(e)',
     'game.shots += d.pellets',
   ];
 

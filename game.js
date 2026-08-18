@@ -22,6 +22,10 @@ import { makeMap, maps } from './maps.js?v=barricade12';
 const $ = (id) => document.getElementById(id),
   canvas = $('game'),
   ctx = canvas.getContext('2d');
+const FROST_ATTACK_RANGE = 300,
+  FROST_RAISE_TIME = 0.5,
+  FROST_LOWER_TIME = 0.5,
+  FROST_COOLDOWN = 3;
 let W = innerWidth,
   H = innerHeight,
   DPR = Math.min(devicePixelRatio || 1, 2),
@@ -516,8 +520,8 @@ function spawnEnemy() {
     look: Math.random(),
     addon,
     stunPulse: 3,
-    shootCd: 3,
-    shootState: 'cooldown',
+    shootCd: 0,
+    shootState: 'ready',
     dartPose: 0,
     attackAnim: 0,
     moveAngle: 0,
@@ -1282,37 +1286,40 @@ function update(dt) {
           break;
         }
       if (e.type === 'frost') {
-        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= 300;
+        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE;
         if (inRange) {
-          if (e.shootState === 'cooldown') {
+          if (e.shootState === 'ready') {
+            e.shootState = 'raising';
+            e.shootCd = FROST_RAISE_TIME;
+          } else if (e.shootState === 'cooldown') {
             e.shootCd -= dt;
             moveEnemy(e, dt, p);
             if (e.shootCd <= 0) {
               e.shootState = 'raising';
-              e.shootCd = 0.5;
+              e.shootCd = FROST_RAISE_TIME;
             }
           } else if (e.shootState === 'raising') {
             e.shootCd -= dt;
-            e.dartPose = clamp(1 - e.shootCd / 0.5, 0, 1);
+            e.dartPose = clamp(1 - e.shootCd / FROST_RAISE_TIME, 0, 1);
             if (e.shootCd <= 0) {
               fireFrostDart(e, p);
               e.shootState = 'lowering';
-              e.shootCd = 0.5;
+              e.shootCd = FROST_LOWER_TIME;
               e.dartPose = 1;
             }
           } else {
             e.shootCd -= dt;
-            e.dartPose = clamp(e.shootCd / 0.5, 0, 1);
+            e.dartPose = clamp(e.shootCd / FROST_LOWER_TIME, 0, 1);
             if (e.shootCd <= 0) {
               e.shootState = 'cooldown';
-              e.shootCd = 3;
+              e.shootCd = FROST_COOLDOWN;
               e.dartPose = 0;
             }
           }
         } else {
           e.dartPose = Math.max(0, e.dartPose - dt * 2);
-          e.shootState = 'cooldown';
-          e.shootCd = 3;
+          e.shootState = 'ready';
+          e.shootCd = 0;
           moveEnemy(e, dt, p);
         }
       } else if (targetBarr) {
@@ -1883,6 +1890,7 @@ function drawObstacle(o) {
 }
 
 function drawEnemyHands(e) {
+  if (e.type === 'frost') return;
   const a = e.moveAngle || 0,
     swing = e.attackAnim > 0 ? Math.sin(((0.3 - e.attackAnim) / 0.3) * Math.PI) : 0,
     reach = e.r * (1.08 + swing * 1.08),
@@ -1924,32 +1932,63 @@ function drawFrostShooter(e) {
       Math.cos(targetAngle - movementAngle),
     ),
     a = movementAngle + angleDelta * pose,
-    forward = e.r * (0.62 + pose * 0.38),
-    side = e.r * (0.58 * (1 - pose));
+    side = e.r * 0.52 * (1 - pose),
+    rear = e.r * (0.38 + pose * 0.18),
+    front = e.r * (2.1 + pose * 0.2),
+    gripRear = e.r * 0.82,
+    gripFront = e.r * 1.42;
   ctx.save();
   ctx.translate(e.x, e.y);
   ctx.rotate(a);
-  ctx.translate(forward, side);
-  ctx.rotate((-side / e.r) * 0.34);
-  ctx.strokeStyle = '#102b3b';
-  ctx.lineWidth = 5;
+
+  // Both arms visibly bring the blowgun from a carried position to the mouth.
   ctx.lineCap = 'round';
+  ctx.strokeStyle = '#173846';
+  ctx.lineWidth = 6;
   ctx.beginPath();
-  ctx.moveTo(-8, 0);
-  ctx.lineTo(16, 0);
+  ctx.moveTo(e.r * 0.55, -e.r * 0.58);
+  ctx.lineTo(gripFront, side - e.r * 0.12);
+  ctx.moveTo(e.r * 0.55, e.r * 0.58);
+  ctx.lineTo(gripRear, side + e.r * 0.12);
   ctx.stroke();
-  ctx.strokeStyle = '#62c8ee';
-  ctx.lineWidth = 2.6;
+  ctx.strokeStyle = '#72b9db';
+  ctx.lineWidth = 3.4;
   ctx.beginPath();
-  ctx.moveTo(-7, 0);
-  ctx.lineTo(18, 0);
+  ctx.moveTo(e.r * 0.55, -e.r * 0.58);
+  ctx.lineTo(gripFront, side - e.r * 0.12);
+  ctx.moveTo(e.r * 0.55, e.r * 0.58);
+  ctx.lineTo(gripRear, side + e.r * 0.12);
   ctx.stroke();
-  ctx.fillStyle = '#bceeff';
+
+  // The shooter stays visible while moving, then aligns with the target as it rises.
+  ctx.strokeStyle = '#0b222f';
+  ctx.lineWidth = 7;
   ctx.beginPath();
-  ctx.arc(18, 0, 2.6, 0, TAU);
+  ctx.moveTo(rear, side);
+  ctx.lineTo(front, side);
+  ctx.stroke();
+  ctx.strokeStyle = '#56c8f2';
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(rear, side);
+  ctx.lineTo(front, side);
+  ctx.stroke();
+  ctx.fillStyle = '#d6f7ff';
+  ctx.beginPath();
+  ctx.arc(front, side, 3.2, 0, TAU);
   ctx.fill();
   ctx.fillStyle = '#315f76';
-  ctx.fillRect(-10, -3, 5, 6);
+  ctx.fillRect(rear - 3, side - 4, 7, 8);
+
+  for (const [x, y] of [
+    [gripRear, side + e.r * 0.12],
+    [gripFront, side - e.r * 0.12],
+  ]) {
+    ctx.fillStyle = '#b9edff';
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, TAU);
+    ctx.fill();
+  }
   ctx.restore();
 }
 function drawBarr(b) {
