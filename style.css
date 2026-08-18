@@ -2663,8 +2663,8 @@ html body #gameCursor::before {
 
 /* Visual refinement pass */
 .accuracyMeter {
-  width: calc(340px * var(--ui-scale));
-  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
+  width: calc(365px * var(--ui-scale));
+  padding: calc(11px * var(--ui-scale)) calc(15px * var(--ui-scale));
 }
 .accuracyHeader {
   margin-bottom: calc(7px * var(--ui-scale));
@@ -2674,7 +2674,7 @@ html body #gameCursor::before {
   font-size: calc(13px * var(--ui-scale));
 }
 .accuracyTrack {
-  height: calc(7px * var(--ui-scale));
+  height: calc(8px * var(--ui-scale));
 }
 .upgrade {
   display: flex;
