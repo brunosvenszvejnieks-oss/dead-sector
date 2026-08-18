@@ -25,7 +25,8 @@ const $ = (id) => document.getElementById(id),
 const FROST_ATTACK_RANGE = 300,
   FROST_RAISE_TIME = 0.5,
   FROST_LOWER_TIME = 0.5,
-  FROST_COOLDOWN = 2.5;
+  FROST_COOLDOWN = 2.5,
+  ELITE_FIELD_RADIUS_MULTIPLIER = 4;
 let W = innerWidth,
   H = innerHeight,
   DPR = Math.min(devicePixelRatio || 1, 2),
@@ -1271,7 +1272,10 @@ function update(dt) {
           color: '#c16cff',
         });
       }
-      if (e.type === 'elite' && Math.hypot(e.x - p.x, e.y - p.y) < e.r * 2) {
+      if (
+        e.type === 'elite' &&
+        Math.hypot(e.x - p.x, e.y - p.y) < e.r * ELITE_FIELD_RADIUS_MULTIPLIER
+      ) {
         e.stunPulse -= dt;
         if (e.stunPulse <= 0) {
           e.stunPulse = 3;
@@ -2051,7 +2055,7 @@ function drawEnemy(e) {
   }
   if (e.type === 'elite') {
     const t = performance.now() * 0.005,
-      aura = e.r * 2;
+      aura = e.r * ELITE_FIELD_RADIUS_MULTIPLIER;
     ctx.save();
     ctx.translate(e.x, e.y);
     const field = ctx.createRadialGradient(0, 0, e.r * 0.8, 0, 0, aura);
