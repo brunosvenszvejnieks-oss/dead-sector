@@ -1,4 +1,4 @@
-import { RANGE_SCALE, WALKER_VARIANTS, weaponDefs } from './src/config.js?v=balance8';
+import { WALKER_VARIANTS, weaponDefs } from './src/config.js?v=balance8';
 import { TAU, circleRect, clamp, lerp, lineRect, rand, resolveCircleRect } from './src/math.js';
 import { findPath, hasClearPath } from './src/navigation.js?v=precision1';
 import { pathLength, pointOnPath, traceShot } from './src/projectiles.js';
@@ -516,7 +516,8 @@ function spawnEnemy() {
     look: Math.random(),
     addon,
     stunPulse: 3,
-    shootCd: 0.5,
+    shootCd: 3,
+    shootState: 'cooldown',
     dartPose: 0,
     attackAnim: 0,
     moveAngle: 0,
@@ -1281,20 +1282,37 @@ function update(dt) {
           break;
         }
       if (e.type === 'frost') {
-        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= 50 * RANGE_SCALE;
+        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= 300;
         if (inRange) {
-          e.shootCd -= dt;
-          if (e.shootCd <= 0) {
-            fireFrostDart(e, p);
-            e.shootCd = 3;
-            e.dartPose = 1;
-          } else if (e.shootCd > 0.5 && e.shootCd <= 2.5) {
-            e.dartPose = Math.max(0, e.dartPose - dt * 2);
+          if (e.shootState === 'cooldown') {
+            e.shootCd -= dt;
             moveEnemy(e, dt, p);
-          } else if (e.shootCd <= 0.5) e.dartPose = clamp(1 - e.shootCd / 0.5, 0, 1);
-          else e.dartPose = clamp((e.shootCd - 2.5) / 0.5, 0, 1);
+            if (e.shootCd <= 0) {
+              e.shootState = 'raising';
+              e.shootCd = 0.5;
+            }
+          } else if (e.shootState === 'raising') {
+            e.shootCd -= dt;
+            e.dartPose = clamp(1 - e.shootCd / 0.5, 0, 1);
+            if (e.shootCd <= 0) {
+              fireFrostDart(e, p);
+              e.shootState = 'lowering';
+              e.shootCd = 0.5;
+              e.dartPose = 1;
+            }
+          } else {
+            e.shootCd -= dt;
+            e.dartPose = clamp(e.shootCd / 0.5, 0, 1);
+            if (e.shootCd <= 0) {
+              e.shootState = 'cooldown';
+              e.shootCd = 3;
+              e.dartPose = 0;
+            }
+          }
         } else {
           e.dartPose = Math.max(0, e.dartPose - dt * 2);
+          e.shootState = 'cooldown';
+          e.shootCd = 3;
           moveEnemy(e, dt, p);
         }
       } else if (targetBarr) {
@@ -1350,7 +1368,7 @@ function update(dt) {
       p.freeze = 1;
       game.enemyDarts.splice(i, 1);
       burst(p.x, p.y, '#9de7ff', 14, 85);
-      damagePlayer(10, true);
+      damagePlayer(2, true);
     }
   }
   for (let i = game.grenades.length - 1; i >= 0; i--) {
@@ -1898,8 +1916,14 @@ function drawEnemyHands(e) {
 function drawFrostShooter(e) {
   if (e.type !== 'frost') return;
   const p = game.player,
-    a = Math.atan2(p.y - e.y, p.x - e.x),
     pose = clamp(e.dartPose || 0, 0, 1),
+    movementAngle = e.moveAngle || 0,
+    targetAngle = Math.atan2(p.y - e.y, p.x - e.x),
+    angleDelta = Math.atan2(
+      Math.sin(targetAngle - movementAngle),
+      Math.cos(targetAngle - movementAngle),
+    ),
+    a = movementAngle + angleDelta * pose,
     forward = e.r * (0.62 + pose * 0.38),
     side = e.r * (0.58 * (1 - pose));
   ctx.save();

@@ -45,7 +45,11 @@ test('published gameplay contract remains unchanged', async () => {
     'game.wave >= 10',
     'game.healDropChance * (game.wave > 6 ? 0.5 : 1)',
     'p.freeze = 1',
-    'damagePlayer(10, true)',
+    'damagePlayer(2, true)',
+    "shootState: 'cooldown'",
+    "e.shootState = 'raising'",
+    "e.shootState = 'lowering'",
+    'Math.hypot(e.x - p.x, e.y - p.y) <= 300',
     'game.shots += d.pellets',
   ];
 
