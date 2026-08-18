@@ -580,7 +580,6 @@ function reload() {
   if (game.power.rapid > 0 || p.reloading > 0 || w.ammo >= d.mag) return;
   p.reloading = d.reload;
   sfx('reload', 0.035);
-  toast('RELOADING', 'reloadToast');
 }
 
 function finishReload() {

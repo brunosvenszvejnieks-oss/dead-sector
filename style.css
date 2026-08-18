@@ -572,15 +572,6 @@ html body #gameCursor::before {
 }
 
 /* Level II barricades, refined aim UI, and victory feedback */
-#toast .toast.reloadToast {
-  font-family: 'Bahnschrift Condensed', 'Arial Narrow', Impact, sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.16em !important;
-  padding: 8px 13px !important;
-  background: rgba(8, 11, 15, 0.74) !important;
-  border-color: rgba(210, 225, 236, 0.16) !important;
-}
 html body #crosshair:not(.reloading) {
   width: 26px;
   height: 26px;
@@ -1132,15 +1123,6 @@ html body #gameCursor::before {
   background: linear-gradient(90deg, #d79b31, #ffe48b);
 }
 
-#toast .toast.reloadToast {
-  min-width: 150px;
-  text-align: center !important;
-  font-family: 'Arial Narrow', 'Roboto Condensed', Arial, sans-serif !important;
-  font-size: 17px !important;
-  line-height: 1 !important;
-  letter-spacing: 0.12em !important;
-  padding: 10px 18px !important;
-}
 .upgrade,
 .upgrade h4,
 .upgrade p,
@@ -2612,15 +2594,6 @@ html body #gameCursor::before {
 }
 
 /* Final cascade: centered presentation is the default for new HUD feedback. */
-#toast .toast.reloadToast {
-  min-width: 150px;
-  text-align: center !important;
-  font-family: 'Arial Narrow', 'Roboto Condensed', Arial, sans-serif !important;
-  font-size: 17px !important;
-  line-height: 1 !important;
-  letter-spacing: 0.12em !important;
-  padding: 10px 18px !important;
-}
 .shopChoice.insufficient:hover {
   opacity: 0.68 !important;
   filter: brightness(0.78) saturate(0.72) !important;
