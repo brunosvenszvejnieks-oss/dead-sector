@@ -99,11 +99,11 @@ test('Level II geometry contract remains unchanged', () => {
   const metro = makeMap(1);
   assert.equal(metro.obs.filter(({ type }) => type === 'metroPillar').length, 9);
   assert.equal(metro.barr.length, 4);
-  assert.ok(metro.barr.every(({ hp, maxHp }) => hp === 1000 && maxHp === 1000));
+  assert.ok(metro.barr.every(({ hp, maxHp }) => hp === 600 && maxHp === 600));
   assert.ok(metro.barr.every(({ playerPass, bulletPass }) => playerPass && bulletPass));
 
   metro.barr[0].hp = 0;
-  assert.equal(makeMap(1).barr[0].hp, 1000, 'map instances must not share mutable barrier state');
+  assert.equal(makeMap(1).barr[0].hp, 600, 'map instances must not share mutable barrier state');
 });
 
 test('math helpers preserve collision behavior', () => {
