@@ -15,6 +15,7 @@ This repository contains the direct-source version of DEAD SECTOR. The browser l
 - `src/math.js` — shared geometry and interpolation helpers
 - `src/navigation.js` — pathfinding and line-of-sight checks
 - `src/projectiles.js` — projectile paths, travel, and ricochet geometry
+- `src/scoring.js` — accuracy bonuses and proportional repair pricing
 - `tests/` — gameplay contracts and focused unit tests
 
 The stateful runtime deliberately remains together. Pure and independently testable systems are separate modules, while initialization order and shared game state stay explicit in `game.js`.

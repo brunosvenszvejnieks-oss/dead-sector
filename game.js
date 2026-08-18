@@ -1,7 +1,8 @@
 import { RANGE_SCALE, WALKER_VARIANTS, weaponDefs } from './src/config.js';
 import { TAU, circleRect, clamp, lerp, lineRect, rand, resolveCircleRect } from './src/math.js';
-import { findPath, hasClearPath } from './src/navigation.js';
+import { findPath, hasClearPath } from './src/navigation.js?v=precision1';
 import { pathLength, pointOnPath, traceShot } from './src/projectiles.js';
+import { ACCURACY_HITS_REQUIRED, accuracyMultiplier, barricadeRepairCost } from './src/scoring.js';
 import { makeMap, maps } from './maps.js';
 
 /*
@@ -56,6 +57,9 @@ const UI = {
   doubleLabel: $('doubleLabel'),
   announce: $('waveAnnouncement'),
   interaction: $('interaction'),
+  accuracyMeter: $('accuracyMeter'),
+  accuracyFill: $('accuracyFill'),
+  accuracyMultiplier: $('accuracyMultiplier'),
   toast: $('toast'),
   damage: $('damageVignette'),
   freezeVignette: $('freezeVignette'),
@@ -280,6 +284,7 @@ function checkpointData() {
     hits: game.hits,
     time: game.time,
     healDropChance: game.healDropChance,
+    grenadeDropBonus: game.grenadeDropBonus,
     player: {
       hp: p.hp,
       maxHp: p.maxHp,
@@ -380,6 +385,8 @@ function startGame(checkpoint = null) {
     waveClearPending: false,
     waveClearReady: false,
     healDropChance: checkpoint?.healDropChance ?? 0.025,
+    grenadeDropBonus: checkpoint?.grenadeDropBonus ?? 0,
+    accuracyStreak: 0,
     power: { double: 0, doubleMult: 1, rapid: 0 },
     player: basePlayer,
   };
@@ -422,7 +429,7 @@ function enemyStats(type, variant = 0) {
     waveDamage = (base) => base + Math.max(0, w - 1) * 2;
   if (type === 'runner')
     return {
-      hp: scale(55 + w * 6),
+      hp: scale((55 + w * 6) * 1.5),
       speed: (140 + w * 2.05) * (1 + (d - 1) * 0.34),
       dmg: waveDamage(15),
       r: 14,
@@ -454,12 +461,12 @@ function enemyStats(type, variant = 0) {
       dmg: waveDamage(50),
       r: 31,
       color: '#b44bdb',
-      score: 1650,
+      score: 1000,
     };
   const v = WALKER_VARIANTS[variant] || WALKER_VARIANTS[0];
   return {
-    hp: scale(100 + w * 10),
-    speed: (90 + v.speedBonus + w * 1.05) * (1 + (d - 1) * 0.3),
+    hp: scale((100 + w * 10) * 1.5),
+    speed: (95 + v.speedBonus + w * 1.05) * (1 + (d - 1) * 0.3),
     dmg: waveDamage(10),
     r: 18,
     color: v.color,
@@ -506,6 +513,7 @@ function spawnEnemy() {
     shootCd: 0.5,
     dartPose: 0,
     attackAnim: 0,
+    moveAngle: 0,
   });
 }
 function fireFrostDart(e, p) {
@@ -536,7 +544,8 @@ function shoot() {
   game.shots += d.pellets;
   p.fireCd = d.rate / (p.fireMult * (game.power.rapid > 0 ? 1.55 : 1));
   const a = Math.atan2(mouse.worldY - p.y, mouse.worldX - p.x),
-    piercing = w.id === 'shotgun';
+    piercing = w.id === 'shotgun',
+    shot = { pending: d.pellets, hits: 0 };
   for (let k = 0; k < d.pellets; k++) {
     const aa = a + rand(-d.spread * (p.spreadMult || 1), d.spread * (p.spreadMult || 1)),
       range = d.range * rand(0.88, 1.02);
@@ -554,6 +563,7 @@ function shoot() {
       hitEnemies: [],
       accuracyHit: false,
       hitLimit: piercing ? 3 : 1,
+      shot,
     });
   }
   if (!overdrive && w.ammo === 0) reload();
@@ -612,13 +622,18 @@ function killEnemy(e) {
   const i = game.enemies.indexOf(e);
   if (i < 0) return;
   game.enemies.splice(i, 1);
-  const gained = Math.round(e.score * (game.power.double > 0 ? game.power.doubleMult : 1));
+  const gained = Math.round(
+    e.score *
+      (game.power.double > 0 ? game.power.doubleMult : 1) *
+      accuracyMultiplier(game.accuracyStreak),
+  );
   game.score += gained;
   game.scoreTexts.push({ x: e.x, y: e.y - e.r * 0.35, text: `+${gained}`, life: 1, max: 1 });
   game.kills++;
   game.corpses.push({ x: e.x, y: e.y, r: e.r, a: Math.random() * TAU, life: 8, color: e.color });
-  const grenadeChance =
-    e.type === 'elite' ? 1 : e.type === 'brute' ? 0.15 : e.type === 'runner' ? 0.02 : 0.01;
+  const baseGrenadeChance =
+      e.type === 'elite' ? 1 : e.type === 'brute' ? 0.15 : e.type === 'runner' ? 0.02 : 0.01,
+    grenadeChance = e.type === 'elite' ? 1 : baseGrenadeChance + game.grenadeDropBonus;
   if (Math.random() < grenadeChance)
     game.pickups.push({ x: e.x, y: e.y, r: 14, type: 'grenade', life: 15, bob: 0 });
   if (e.addon) activateAddon(e.addon);
@@ -646,11 +661,9 @@ function activateAddon(type) {
 function pickup(pu) {
   const p = game.player;
   if (pu.type === 'heal') {
-    if (p.hp < p.maxHp) {
-      game.heals.push({ rate: 12, time: 3, max: 3 });
-      toast('HEALING · 12 HP/S · 3s');
-      sfx('pickup', 0.05);
-    } else toast('HEALTH FULL');
+    game.heals.push({ rate: 12, time: 3, max: 3 });
+    toast('HEALING · 12 HP/S · 3s');
+    sfx('pickup', 0.05);
   } else if (pu.type === 'grenade') {
     p.grenades = Math.min(5, p.grenades + 1);
     toast('+1 GRENADE');
@@ -696,22 +709,28 @@ function damagePlayer(a, force = false) {
   if (p.hp <= 0) endGame();
   updateHUD();
 }
+function distanceToBarrier(player, barrier) {
+  const nearestX = clamp(player.x, barrier.x, barrier.x + barrier.w),
+    nearestY = clamp(player.y, barrier.y, barrier.y + barrier.h);
+  return Math.hypot(player.x - nearestX, player.y - nearestY);
+}
 function interact() {
   if (!game) return;
   const p = game.player;
   let best = null,
     bd = 75;
   for (const b of game.map.barr) {
-    const d = Math.hypot(p.x - b.x - b.w / 2, p.y - b.y - b.h / 2);
-    if (d < bd && b.hp > 0 && b.hp < b.maxHp) {
+    const d = distanceToBarrier(p, b);
+    if (d < bd && b.hp < b.maxHp) {
       best = b;
       bd = d;
     }
   }
   if (best) {
-    if (game.score >= 250) {
-      game.score -= 250;
-      best.hp = Math.min(best.maxHp, best.hp + 160);
+    const cost = barricadeRepairCost(best);
+    if (game.score >= cost) {
+      game.score -= cost;
+      best.hp = best.maxHp;
       toast('BARRICADE REPAIRED');
       sfx('buy', 0.05);
     } else toast('NOT ENOUGH SCORE');
@@ -725,9 +744,9 @@ function updateInteraction() {
   let txt = '',
     bd = 80;
   for (const b of game.map.barr) {
-    const d = Math.hypot(p.x - b.x - b.w / 2, p.y - b.y - b.h / 2);
-    if (d < bd && b.hp > 0 && b.hp < b.maxHp) {
-      txt = `[${prettyKey(binds.interact)}] REPAIR BARRICADE — 250`;
+    const d = distanceToBarrier(p, b);
+    if (d < bd && b.hp < b.maxHp) {
+      txt = `[${prettyKey(binds.interact)}] REPAIR BARRICADE — ${barricadeRepairCost(b)}`;
       bd = d;
     }
   }
@@ -771,15 +790,15 @@ function chooseUpgrades() {
         t: 'Stopping Power',
         i: '💥',
         c: 'damage',
-        d: '+15% weapon damage.',
-        f: () => (game.player.damageMult *= 1.15),
+        d: '+10% weapon damage.',
+        f: () => (game.player.damageMult *= 1.1),
       },
       {
         t: 'Heavy Rounds',
         i: '🔸',
         c: 'damage',
-        d: '+10% weapon damage.',
-        f: () => (game.player.damageMult *= 1.1),
+        d: '+7% weapon damage.',
+        f: () => (game.player.damageMult *= 1.07),
       },
       {
         t: 'Fleet Foot',
@@ -787,13 +806,6 @@ function chooseUpgrades() {
         c: 'movement',
         d: '+12% movement speed.',
         f: () => (game.player.moveMult *= 1.12),
-      },
-      {
-        t: 'Light Step',
-        i: '💨',
-        c: 'movement',
-        d: '+8% movement speed.',
-        f: () => (game.player.moveMult *= 1.08),
       },
       {
         t: 'Fast Hands',
@@ -827,7 +839,7 @@ function chooseUpgrades() {
         t: 'Field Medicine',
         i: '⚕',
         c: 'healing',
-        d: '+5% healing drops. Max 20%.',
+        d: '+5% health drop chance.',
         ok: () => game.healDropChance < 0.2,
         f: () => (game.healDropChance = Math.min(0.2, game.healDropChance + 0.05)),
       },
@@ -835,15 +847,22 @@ function chooseUpgrades() {
         t: 'Emergency Care',
         i: '❤',
         c: 'healing',
-        d: 'Gain 25 health now. Can exceed maximum.',
+        d: '+25 health now.',
         f: () => (game.player.hp += 25),
       },
       {
         t: 'Steady Hands',
         i: '🎯',
         c: 'accuracy',
-        d: 'Reduce weapon spread by 12%.',
+        d: '-12% weapon spread.',
         f: () => (game.player.spreadMult = (game.player.spreadMult || 1) * 0.88),
+      },
+      {
+        t: 'Grenadier',
+        i: '◉',
+        c: 'utility',
+        d: '+2% grenade drop chance.',
+        f: () => (game.grenadeDropBonus += 0.02),
       },
     ]
       .filter((u) => !u.ok || u.ok())
@@ -1039,6 +1058,11 @@ function updateHUD() {
   UI.wave.textContent = game.wave;
   UI.left.textContent = `${game.enemies.length + game.waveQueue} HOSTILES`;
   UI.score.textContent = Math.floor(game.score).toLocaleString();
+  const accuracyProgress = clamp(game.accuracyStreak / ACCURACY_HITS_REQUIRED, 0, 1),
+    accuracyBonus = accuracyMultiplier(game.accuracyStreak);
+  UI.accuracyFill.style.transform = `scaleX(${accuracyProgress})`;
+  UI.accuracyMultiplier.textContent = `${accuracyBonus}×`;
+  UI.accuracyMeter.classList.toggle('active', accuracyBonus > 1);
   UI.hp.style.width = clamp((p.hp / p.maxHp) * 100, 0, 100) + '%';
   UI.overheal.style.width = clamp((over / p.maxHp) * 100, 0, 100) + '%';
   UI.hpText.textContent = `${Math.ceil(p.hp)} / ${p.maxHp}`;
@@ -1097,7 +1121,7 @@ function moveEnemy(e, dt, p) {
   if (!hasClearPath(game.map, e, e.x, e.y, p.x, p.y)) {
     if (e.pathTimer <= 0 || !e.path.length) {
       e.path = findPath(game.map, e, p.x, p.y);
-      e.pathTimer = 0.2 + Math.random() * 0.14;
+      e.pathTimer = 0.12 + Math.random() * 0.08;
     }
     while (e.path.length && Math.hypot(e.x - e.path[0].x, e.y - e.path[0].y) < 18) e.path.shift();
     if (e.path.length) {
@@ -1114,6 +1138,7 @@ function moveEnemy(e, dt, p) {
   const dx = target.x - e.x,
     dy = target.y - e.y,
     d = Math.hypot(dx, dy) || 1;
+  e.moveAngle = Math.atan2(dy, dx);
   e.x += (dx / d) * e.speed * dt;
   e.y += (dy / d) * e.speed * dt;
 }
@@ -1268,14 +1293,15 @@ function update(dt) {
           moveEnemy(e, dt, p);
         }
       } else if (targetBarr) {
-        const tx = targetBarr.x + targetBarr.w / 2,
-          ty = targetBarr.y + targetBarr.h / 2,
+        const tx = clamp(e.x, targetBarr.x, targetBarr.x + targetBarr.w),
+          ty = clamp(e.y, targetBarr.y, targetBarr.y + targetBarr.h),
           dd = Math.hypot(tx - e.x, ty - e.y) || 1;
+        e.moveAngle = Math.atan2(ty - e.y, tx - e.x);
         e.x += ((tx - e.x) / dd) * e.speed * dt;
         e.y += ((ty - e.y) / dd) * e.speed * dt;
         if (circleRect(e.x, e.y, e.r + 4, targetBarr) && e.attackCd <= 0) {
           targetBarr.hp = Math.max(0, targetBarr.hp - e.dmg);
-          e.attackAnim = 0.24;
+          e.attackAnim = 0.3;
           e.attackCd = e.type === 'runner' ? 0.65 : e.type === 'elite' ? 0.55 : 0.82;
         }
       } else moveEnemy(e, dt, p);
@@ -1283,7 +1309,7 @@ function update(dt) {
       for (const b of m.barr) if (b.hp > 0) resolveCircleRect(e, b, e.r);
       if (Math.hypot(e.x - p.x, e.y - p.y) < e.r + p.r + 3 && e.attackCd <= 0) {
         damagePlayer(e.dmg);
-        e.attackAnim = 0.24;
+        e.attackAnim = 0.3;
         e.attackCd = e.type === 'runner' ? 0.65 : e.type === 'elite' ? 0.55 : 0.82;
       }
     }
@@ -1369,6 +1395,8 @@ function update(dt) {
         const falloff = b.pellet ? Math.max(0.38, 1 - (d / b.range) * 0.62) : 1;
         top.hp -= b.damage * falloff;
         top.hitFlash = 0.08;
+        b.shot.hits++;
+        game.accuracyStreak = Math.min(ACCURACY_HITS_REQUIRED, game.accuracyStreak + 1);
         if (!b.accuracyHit) {
           game.hits++;
           b.accuracyHit = true;
@@ -1382,7 +1410,11 @@ function update(dt) {
         }
       }
     }
-    if (b.travel >= b.total) game.bullets.splice(i, 1);
+    if (b.travel >= b.total) {
+      b.shot.pending--;
+      if (b.shot.pending === 0 && b.shot.hits === 0) game.accuracyStreak = 0;
+      game.bullets.splice(i, 1);
+    }
   }
   for (const s of game.scoreTexts) {
     s.life -= dt;
@@ -1432,6 +1464,26 @@ function drawPickup(pu) {
     y = pu.y + Math.sin(pu.bob) * 4;
   if (pu.type === 'grenade') {
     drawGrenadeShape(pu.x, y, pu.r, true);
+    return;
+  }
+  if (pu.type === 'heal') {
+    const pulse = 1 + Math.sin(performance.now() * 0.006 + pu.bob) * 0.08;
+    ctx.save();
+    ctx.translate(pu.x, y);
+    ctx.scale(pulse, pulse);
+    ctx.shadowBlur = 22;
+    ctx.shadowColor = '#55e991';
+    ctx.fillStyle = 'rgba(22,66,43,.92)';
+    ctx.strokeStyle = '#75f2a7';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(-pu.r, -pu.r, pu.r * 2, pu.r * 2, 5);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = '#8affb7';
+    ctx.fillRect(-3.4, -pu.r * 0.7, 6.8, pu.r * 1.4);
+    ctx.fillRect(-pu.r * 0.7, -3.4, pu.r * 1.4, 6.8);
+    ctx.restore();
     return;
   }
   const colors = { heal: '#59d98e', double: '#f2c14e', rapid: '#b16cff' };
@@ -1511,14 +1563,23 @@ function draw() {
     ctx.shadowBlur = 0;
     ctx.restore();
   }
-  const actors = [
-    { kind: 'player', y: game.player.y, ref: game.player },
-    ...game.enemies.map((e) => ({ kind: 'enemy', y: e.y, ref: e })),
-  ];
+  const foregroundEnemies = game.enemies.filter(
+      (enemy) =>
+        enemy.attackAnim > 0 ||
+        Math.hypot(enemy.x - game.player.x, enemy.y - game.player.y) < enemy.r + game.player.r + 10,
+    ),
+    foregroundSet = new Set(foregroundEnemies),
+    actors = [
+      { kind: 'player', y: game.player.y, ref: game.player },
+      ...game.enemies
+        .filter((enemy) => !foregroundSet.has(enemy))
+        .map((enemy) => ({ kind: 'enemy', y: enemy.y, ref: enemy })),
+    ];
   actors.sort((a, b) => a.y - b.y || (a.kind === 'player' ? -1 : 1));
   for (const a of actors)
     if (a.kind === 'player') drawPlayer(a.ref);
     else drawEnemy(a.ref);
+  for (const enemy of foregroundEnemies) drawEnemy(enemy);
   for (const b of game.bullets) {
     const head = pointOnPath(b.points, b.travel),
       tail = pointOnPath(b.points, Math.max(0, b.travel - (b.pellet ? 6 : 10)));
@@ -1555,6 +1616,38 @@ function draw() {
   }
   ctx.restore();
   drawMinimap();
+  drawRainEffect();
+}
+function drawRainEffect() {
+  if (game.map.id !== 'yard') return;
+  const time = performance.now() * 0.001;
+  ctx.save();
+  ctx.lineCap = 'round';
+  for (let index = 0; index < 78; index++) {
+    const seed = textureRand(index * 19.73),
+      speed = 620 + seed * 430,
+      x = ((textureRand(index * 41.19) * (W + 240) + time * (90 + seed * 65)) % (W + 240)) - 120,
+      y = ((textureRand(index * 73.11) * (H + 180) + time * speed) % (H + 180)) - 90,
+      length = 12 + seed * 18;
+    ctx.strokeStyle = `rgba(190,218,232,${0.09 + seed * 0.12})`;
+    ctx.lineWidth = 0.7 + seed * 0.8;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - length * 0.26, y + length);
+    ctx.stroke();
+  }
+  for (let index = 0; index < 9; index++) {
+    const phase = (time * (0.018 + index * 0.001) + textureRand(index * 91.7)) % 1,
+      x = textureRand(index * 31.2) * W,
+      y = textureRand(index * 57.8) * H;
+    ctx.globalAlpha = Math.sin(phase * Math.PI) * 0.16;
+    ctx.strokeStyle = '#c9e4ef';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.ellipse(x, y, 2.5 + (index % 3), 4 + (index % 4), -0.2, 0, TAU);
+    ctx.stroke();
+  }
+  ctx.restore();
 }
 function drawGrid(m) {
   ctx.strokeStyle = 'rgba(255,255,255,.025)';
@@ -1668,11 +1761,17 @@ function drawObstacle(o) {
       }
     }
   } else if (o.type === 'metal') {
-    ctx.fillStyle = '#3d464d';
+    const baseShade = textureRand(o.x * 0.27 + o.y * 0.61);
+    ctx.fillStyle = `rgb(${52 + Math.round(baseShade * 16)},${
+      62 + Math.round(baseShade * 18)
+    },${69 + Math.round(baseShade * 20)})`;
     ctx.fillRect(o.x, o.y, o.w, o.h);
     const panel = 54;
     for (let x = o.x; x < o.x + o.w; x += panel) {
-      ctx.fillStyle = `rgba(210,225,232,${0.025 + textureRand(x + o.y) * 0.035})`;
+      const panelNoise = textureRand(x * 0.83 + o.y * 1.17);
+      ctx.fillStyle = `rgba(${165 + Math.round(panelNoise * 50)},${
+        185 + Math.round(panelNoise * 35)
+      },${194 + Math.round(panelNoise * 38)},${0.035 + panelNoise * 0.07})`;
       ctx.fillRect(x + 3, o.y + 3, Math.min(panel - 6, o.x + o.w - x - 3), o.h - 6);
       ctx.strokeStyle = 'rgba(8,12,15,.48)';
       ctx.lineWidth = 2;
@@ -1750,10 +1849,9 @@ function drawObstacle(o) {
 }
 
 function drawEnemyHands(e) {
-  const p = game.player,
-    a = Math.atan2(p.y - e.y, p.x - e.x),
-    swing = e.attackAnim > 0 ? Math.sin(((0.24 - e.attackAnim) / 0.24) * Math.PI) : 0,
-    reach = e.r * (1.1 + swing * 0.72),
+  const a = e.moveAngle || 0,
+    swing = e.attackAnim > 0 ? Math.sin(((0.3 - e.attackAnim) / 0.3) * Math.PI) : 0,
+    reach = e.r * (1.08 + swing * 1.08),
     start = e.r * 0.72,
     side = e.r * 0.62,
     hand = e.type === 'brute' ? 4 : e.type === 'elite' ? 4.5 : 3;
@@ -1761,7 +1859,7 @@ function drawEnemyHands(e) {
   ctx.translate(e.x, e.y);
   ctx.rotate(a);
   ctx.strokeStyle = 'rgba(18,20,19,.72)';
-  ctx.lineWidth = hand + 2;
+  ctx.lineWidth = hand + 2.5;
   ctx.lineCap = 'round';
   ctx.beginPath();
   ctx.moveTo(start, -side);
@@ -1844,19 +1942,17 @@ function drawBarr(b) {
   ctx.moveTo(b.x + b.w - 3, b.y + 3);
   ctx.lineTo(b.x + 3, b.y + b.h - 3);
   ctx.stroke();
-  if (alive) {
-    const ratio = clamp(b.hp / b.maxHp, 0, 1),
-      bw = clamp(Math.max(b.w, b.h) * 0.72, 48, 112),
-      bx = b.x + b.w / 2 - bw / 2,
-      by = b.y - 10;
-    ctx.fillStyle = 'rgba(4,7,8,.86)';
-    ctx.fillRect(bx - 2, by - 2, bw + 4, 7);
-    ctx.fillStyle = ratio > 0.55 ? '#62cf74' : ratio > 0.25 ? '#e0aa45' : '#e4574f';
-    ctx.fillRect(bx, by, bw * ratio, 3);
-    ctx.strokeStyle = 'rgba(255,255,255,.26)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(bx - 0.5, by - 0.5, bw + 1, 4);
-  }
+  const ratio = clamp(b.hp / b.maxHp, 0, 1),
+    bw = clamp(Math.max(b.w, b.h) * 0.72, 48, 112),
+    bx = b.x + b.w / 2 - bw / 2,
+    by = b.y - 10;
+  ctx.fillStyle = 'rgba(4,7,8,.86)';
+  ctx.fillRect(bx - 2, by - 2, bw + 4, 7);
+  ctx.fillStyle = ratio > 0.55 ? '#62cf74' : ratio > 0.25 ? '#e0aa45' : '#e4574f';
+  ctx.fillRect(bx, by, bw * ratio, 3);
+  ctx.strokeStyle = alive ? 'rgba(255,255,255,.26)' : 'rgba(228,87,79,.72)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(bx - 0.5, by - 0.5, bw + 1, 4);
 }
 function drawEnemy(e) {
   const hp = clamp(e.hp / e.maxHp, 0, 1),

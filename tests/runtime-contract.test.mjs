@@ -5,6 +5,11 @@ import { RANGE_SCALE, WALKER_VARIANTS, weaponDefs } from '../src/config.js';
 import { circleRect, clamp, lerp, lineRect, resolveCircleRect } from '../src/math.js';
 import { findPath, hasClearPath } from '../src/navigation.js';
 import { pathLength, pointOnPath, traceShot } from '../src/projectiles.js';
+import {
+  ACCURACY_SCORE_MULTIPLIER,
+  accuracyMultiplier,
+  barricadeRepairCost,
+} from '../src/scoring.js';
 import { makeMap } from '../maps.js';
 
 const root = new URL('../', import.meta.url);
@@ -29,7 +34,10 @@ test('published gameplay contract remains unchanged', async () => {
   const game = await read('game.js');
 
   const required = [
-    'speed: (90 + v.speedBonus',
+    'speed: (95 + v.speedBonus',
+    'hp: scale((100 + w * 10) * 1.5)',
+    'hp: scale((55 + w * 6) * 1.5)',
+    'score: 1000',
     'game.wave >= 10',
     'game.healDropChance * (game.wave > 6 ? 0.5 : 1)',
     'p.freeze = 1',
@@ -38,6 +46,9 @@ test('published gameplay contract remains unchanged', async () => {
   ];
 
   for (const fragment of required) assert.ok(game.includes(fragment), fragment);
+  assert.ok(game.includes("d: '+25 health now.'"));
+  assert.ok(game.includes("d: '+2% grenade drop chance.'"));
+  assert.equal(game.includes("t: 'Light Step'"), false);
   assert.equal(RANGE_SCALE, 7);
   assert.equal(weaponDefs.pistol.rangeRating, 70);
   assert.equal(weaponDefs.pistol.range, 70 * RANGE_SCALE);
@@ -49,6 +60,15 @@ test('published gameplay contract remains unchanged', async () => {
     WALKER_VARIANTS.map(({ speedBonus }) => speedBonus),
     [0, 4, 8, 12],
   );
+});
+
+test('accuracy bonus and proportional barricade repair costs remain balanced', () => {
+  assert.equal(accuracyMultiplier(9), 1);
+  assert.equal(accuracyMultiplier(10), ACCURACY_SCORE_MULTIPLIER);
+  assert.equal(ACCURACY_SCORE_MULTIPLIER, 1.5);
+  assert.equal(barricadeRepairCost({ hp: 0, maxHp: 150 }), 300);
+  assert.equal(barricadeRepairCost({ hp: 75, maxHp: 150 }), 150);
+  assert.equal(barricadeRepairCost({ hp: 149, maxHp: 150 }), 5);
 });
 
 test('save keys remain backward compatible', async () => {
@@ -105,4 +125,13 @@ test('navigation respects obstacles and live barriers', () => {
   };
   assert.equal(hasClearPath(blockedMap, entity, 24, 24, 200, 24), false);
   assert.ok(findPath(blockedMap, entity, 200, 24).length > 0);
+
+  const metro = makeMap(1);
+  const metroTarget = { x: metro.size[0] / 2, y: metro.size[1] / 2 };
+  for (const spawn of metro.spawns) {
+    assert.ok(
+      findPath(metro, { ...spawn, r: 18 }, metroTarget.x, metroTarget.y).length > 0,
+      `Metro spawn at ${spawn.x},${spawn.y} must reach the player area`,
+    );
+  }
 });
