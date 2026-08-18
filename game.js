@@ -815,8 +815,8 @@ function chooseUpgrades() {
         t: 'Heavy Rounds',
         i: '🔸',
         c: 'damage',
-        d: '+7% weapon damage.',
-        f: () => (game.player.damageMult *= 1.07),
+        d: '+9% weapon damage.',
+        f: () => (game.player.damageMult *= 1.09),
       },
       {
         t: 'Fleet Foot',
@@ -836,8 +836,8 @@ function chooseUpgrades() {
         t: 'Rapid Trigger',
         i: '⚡',
         c: 'fire',
-        d: '+9% fire rate.',
-        f: () => (game.player.fireMult *= 1.09),
+        d: '+12% fire rate.',
+        f: () => (game.player.fireMult *= 1.12),
       },
       {
         t: 'Juggernaut',
@@ -850,8 +850,8 @@ function chooseUpgrades() {
         t: 'Combat Training',
         i: '🪖',
         c: 'health',
-        d: '+10 maximum health.',
-        f: () => (game.player.maxHp += 10),
+        d: '+20 maximum health.',
+        f: () => (game.player.maxHp += 20),
       },
       {
         t: 'Field Medicine',

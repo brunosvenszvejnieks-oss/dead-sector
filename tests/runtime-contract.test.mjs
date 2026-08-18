@@ -58,6 +58,10 @@ test('published gameplay contract remains unchanged', async () => {
     "e.shootState === 'raising' || e.shootState === 'lowering'",
     'function drawFrostShooter(e)',
     'game.shots += d.pellets',
+    "d: '+20 maximum health.'",
+    'game.player.maxHp += 20',
+    "d: '+9% weapon damage.'",
+    "d: '+12% fire rate.'",
   ];
 
   for (const fragment of required) assert.ok(game.includes(fragment), fragment);
