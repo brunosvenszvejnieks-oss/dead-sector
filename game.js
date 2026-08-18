@@ -7,7 +7,7 @@ import {
   accuracyMultiplier,
   barricadeRepairCost,
 } from './src/scoring.js?v=balance9';
-import { makeMap, maps } from './maps.js';
+import { makeMap, maps } from './maps.js?v=barricade12';
 
 /*
  * DEAD SECTOR — core runtime

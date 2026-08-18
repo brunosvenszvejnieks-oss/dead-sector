@@ -102,16 +102,16 @@ export function makeMap(idx) {
       { x: 2050, y: 1350 },
     );
     barr.push(
-      { x: 770, y: 690, w: 150, h: 24, hp: 150, maxHp: 150, playerPass: true, bulletPass: true },
-      { x: 1050, y: 680, w: 210, h: 24, hp: 150, maxHp: 150, playerPass: true, bulletPass: true },
-      { x: 820, y: 1120, w: 100, h: 24, hp: 150, maxHp: 150, playerPass: true, bulletPass: true },
+      { x: 770, y: 690, w: 150, h: 24, hp: 1000, maxHp: 1000, playerPass: true, bulletPass: true },
+      { x: 1050, y: 680, w: 210, h: 24, hp: 1000, maxHp: 1000, playerPass: true, bulletPass: true },
+      { x: 820, y: 1120, w: 100, h: 24, hp: 1000, maxHp: 1000, playerPass: true, bulletPass: true },
       {
         x: 1050,
         y: 1100,
         w: 230,
         h: 24,
-        hp: 150,
-        maxHp: 150,
+        hp: 1000,
+        maxHp: 1000,
         playerPass: true,
         bulletPass: true,
       },
