@@ -2721,36 +2721,36 @@ html body #gameCursor::before {
   background: rgba(4, 7, 10, 0.91) !important;
 }
 html body #crosshair:not(.reloading) {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   background: transparent;
-  filter: drop-shadow(0 0 2px rgba(97, 210, 245, 0.72));
+  filter: none;
 }
 html body #crosshair:not(.reloading)::before {
-  width: 28px;
+  width: 22px;
   height: 2px;
   left: 0;
-  top: 13px;
+  top: 10px;
   border-radius: 2px;
   background: #edfaff;
 }
 html body #crosshair:not(.reloading)::after {
   width: 2px;
-  height: 28px;
-  left: 13px;
+  height: 22px;
+  left: 10px;
   top: 0;
   border-radius: 2px;
   background: #edfaff;
 }
 html body #crosshair.reloading {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background: transparent;
   filter: none;
 }
 html body #crosshair.reloading::before {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   left: 0;
   top: 0;
   border-radius: 50%;
@@ -2765,8 +2765,8 @@ html body #crosshair.reloading::after {
   content: '';
   position: absolute;
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   left: 4px;
   top: 4px;
   background:
