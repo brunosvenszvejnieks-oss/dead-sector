@@ -441,8 +441,8 @@ function enemyStats(type, variant = 0) {
   if (type === 'brute')
     return {
       hp: scale(285 + w * 24),
-      speed: (71 + w * 0.85) * (1 + (d - 1) * 0.28),
-      dmg: waveDamage(24),
+      speed: (86 + w * 0.85) * (1 + (d - 1) * 0.28),
+      dmg: waveDamage(40),
       r: 25,
       color: '#8f4d3b',
       score: 470,
@@ -460,7 +460,7 @@ function enemyStats(type, variant = 0) {
     return {
       hp: scale(1225 + w * 100),
       speed: (87 + w * 1.05) * (1 + (d - 1) * 0.3),
-      dmg: waveDamage(50),
+      dmg: waveDamage(70),
       r: 31,
       color: '#b44bdb',
       score: 1000,
