@@ -530,7 +530,7 @@ function spawnEnemy() {
 }
 function fireFrostDart(e, p) {
   const a = Math.atan2(p.y - e.y, p.x - e.x),
-    speed = 245,
+    speed = 265,
     muzzle = e.r + 15;
   game.enemyDarts.push({
     x: e.x + Math.cos(a) * muzzle,
@@ -1287,8 +1287,9 @@ function update(dt) {
           break;
         }
       if (e.type === 'frost') {
-        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE;
-        if (inRange) {
+        const inRange = Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE,
+          attackCommitted = e.shootState === 'raising' || e.shootState === 'lowering';
+        if (inRange || attackCommitted) {
           if (e.shootState === 'ready') {
             e.shootState = 'raising';
             e.shootCd = FROST_RAISE_TIME;

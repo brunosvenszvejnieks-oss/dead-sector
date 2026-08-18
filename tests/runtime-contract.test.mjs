@@ -47,10 +47,12 @@ test('published gameplay contract remains unchanged', async () => {
     'y: s.y + rand(-25, 25),\n    type,\n    ...st,',
     'p.freeze = 1',
     'damagePlayer(2, true)',
+    'speed = 265',
     "shootState: 'ready'",
     "e.shootState = 'raising'",
     "e.shootState = 'lowering'",
     'Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE',
+    "e.shootState === 'raising' || e.shootState === 'lowering'",
     'function drawFrostShooter(e)',
     'game.shots += d.pellets',
   ];
