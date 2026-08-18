@@ -1623,29 +1623,40 @@ function drawRainEffect() {
   const time = performance.now() * 0.001;
   ctx.save();
   ctx.lineCap = 'round';
-  for (let index = 0; index < 78; index++) {
+  for (let index = 0; index < 82; index++) {
     const seed = textureRand(index * 19.73),
-      speed = 620 + seed * 430,
-      x = ((textureRand(index * 41.19) * (W + 240) + time * (90 + seed * 65)) % (W + 240)) - 120,
-      y = ((textureRand(index * 73.11) * (H + 180) + time * speed) % (H + 180)) - 90,
-      length = 12 + seed * 18;
-    ctx.strokeStyle = `rgba(190,218,232,${0.09 + seed * 0.12})`;
-    ctx.lineWidth = 0.7 + seed * 0.8;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x - length * 0.26, y + length);
-    ctx.stroke();
-  }
-  for (let index = 0; index < 9; index++) {
-    const phase = (time * (0.018 + index * 0.001) + textureRand(index * 91.7)) % 1,
-      x = textureRand(index * 31.2) * W,
-      y = textureRand(index * 57.8) * H;
-    ctx.globalAlpha = Math.sin(phase * Math.PI) * 0.16;
-    ctx.strokeStyle = '#c9e4ef';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.ellipse(x, y, 2.5 + (index % 3), 4 + (index % 4), -0.2, 0, TAU);
-    ctx.stroke();
+      cycle = 0.62 + seed * 0.55,
+      phase = (time / cycle + textureRand(index * 73.11)) % 1,
+      hitX = textureRand(index * 41.19) * (W + 120) - 60,
+      hitY = H * (0.18 + textureRand(index * 57.37) * 0.78),
+      wind = 24 + seed * 34;
+    if (phase < 0.88) {
+      const fall = phase / 0.88,
+        y = -45 + (hitY + 45) * fall,
+        x = hitX + wind * (1 - fall),
+        length = 11 + seed * 20;
+      ctx.strokeStyle = `rgba(190,218,232,${0.08 + seed * 0.15})`;
+      ctx.lineWidth = 0.65 + seed * 0.9;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x - length * 0.22, y + length);
+      ctx.stroke();
+    } else if (index % 5 === 0) {
+      const impact = (phase - 0.88) / 0.12,
+        alpha = Math.sin(impact * Math.PI) * (0.16 + seed * 0.12),
+        radius = 2 + impact * (5 + seed * 5);
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = '#d6edf5';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.ellipse(hitX, hitY, radius, radius * 0.42, -0.18, 0, TAU);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(hitX, hitY - radius * 0.4);
+      ctx.lineTo(hitX - 1.2, hitY - radius * 1.15);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
   }
   ctx.restore();
 }

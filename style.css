@@ -2687,3 +2687,127 @@ html body #crosshair.reloading::after {
 html body #gameCursor::before {
   background: linear-gradient(145deg, #fff, #d8e8f1) !important;
 }
+
+/* Visual refinement pass */
+.accuracyMeter {
+  width: calc(340px * var(--ui-scale));
+  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
+}
+.accuracyHeader {
+  margin-bottom: calc(7px * var(--ui-scale));
+  font-size: calc(10px * var(--ui-scale));
+}
+.accuracyHeader b {
+  font-size: calc(13px * var(--ui-scale));
+}
+.accuracyTrack {
+  height: calc(7px * var(--ui-scale));
+}
+.upgrade {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center !important;
+}
+.upgrade h4 {
+  position: relative;
+  display: block !important;
+  min-height: 31px;
+  padding: 5px 38px;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: center !important;
+}
+.upgrade h4 > span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.upgrade .upgradeIcon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  margin: 0;
+}
+.upgrade p,
+.upgrade button {
+  width: 100%;
+  text-align: center !important;
+}
+.shopChoice,
+.shopChoice.insufficient,
+.shopChoice.insufficient:hover {
+  transition: none !important;
+}
+.shopChoice.insufficient:hover {
+  opacity: 1 !important;
+  filter: none !important;
+}
+.shopChoice.insufficient:hover .shopLock {
+  background: rgba(4, 7, 10, 0.91) !important;
+}
+html body #crosshair:not(.reloading) {
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, #f2fbff 0 1.5px, transparent 1.8px);
+  filter: drop-shadow(0 0 2px rgba(97, 210, 245, 0.72));
+}
+html body #crosshair:not(.reloading)::before {
+  width: 28px;
+  height: 2px;
+  left: 0;
+  top: 13px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #edfaff 0 8px, transparent 8px 20px, #edfaff 20px 28px);
+}
+html body #crosshair:not(.reloading)::after {
+  width: 2px;
+  height: 28px;
+  left: 13px;
+  top: 0;
+  border-radius: 2px;
+  background: linear-gradient(#edfaff 0 8px, transparent 8px 20px, #edfaff 20px 28px);
+}
+html body #crosshair.reloading {
+  width: 38px;
+  height: 38px;
+  background: radial-gradient(circle, #f2fbff 0 1.5px, transparent 1.8px);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--reload-color) 75%, transparent));
+}
+html body #crosshair.reloading::before {
+  width: 38px;
+  height: 38px;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--reload-color) calc(var(--reload-progress) * 1turn),
+    rgba(255, 255, 255, 0.16) 0
+  );
+  -webkit-mask: radial-gradient(circle, transparent 61%, #000 64%);
+  mask: radial-gradient(circle, transparent 61%, #000 64%);
+}
+html body #crosshair.reloading::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 26px;
+  height: 26px;
+  left: 6px;
+  top: 6px;
+  background:
+    linear-gradient(90deg, #edfaff 0 6px, transparent 6px 20px, #edfaff 20px 26px),
+    linear-gradient(#edfaff 0 6px, transparent 6px 20px, #edfaff 20px 26px);
+  background-position: center;
+  background-size:
+    100% 2px,
+    2px 100%;
+  background-repeat: no-repeat;
+}
+.waveAnnouncement {
+  font-family: 'Arial Narrow', 'Roboto Condensed', Arial, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.11em !important;
+  font-style: normal;
+}
