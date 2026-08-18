@@ -54,6 +54,7 @@ test('published gameplay contract remains unchanged', async () => {
     "shootState: 'ready'",
     "e.shootState = 'raising'",
     "e.shootState = 'lowering'",
+    'FROST_ATTACK_RANGE = 400',
     'Math.hypot(e.x - p.x, e.y - p.y) <= FROST_ATTACK_RANGE',
     "e.shootState === 'raising' || e.shootState === 'lowering'",
     'function drawFrostShooter(e)',

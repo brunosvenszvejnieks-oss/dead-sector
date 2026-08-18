@@ -22,7 +22,7 @@ import { makeMap, maps } from './maps.js?v=barricade13';
 const $ = (id) => document.getElementById(id),
   canvas = $('game'),
   ctx = canvas.getContext('2d');
-const FROST_ATTACK_RANGE = 300,
+const FROST_ATTACK_RANGE = 400,
   FROST_RAISE_TIME = 0.5,
   FROST_LOWER_TIME = 0.5,
   FROST_COOLDOWN = 2.5 / 1.3,
