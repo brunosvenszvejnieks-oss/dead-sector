@@ -2770,14 +2770,14 @@ html body #crosshair:not(.reloading)::after {
   background: #edfaff;
 }
 html body #crosshair.reloading {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   background: transparent;
-  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--reload-color) 75%, transparent));
+  filter: none;
 }
 html body #crosshair.reloading::before {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   left: 0;
   top: 0;
   border-radius: 50%;
@@ -2785,17 +2785,17 @@ html body #crosshair.reloading::before {
     var(--reload-color) calc(var(--reload-progress) * 1turn),
     rgba(255, 255, 255, 0.16) 0
   );
-  -webkit-mask: radial-gradient(circle, transparent 61%, #000 64%);
-  mask: radial-gradient(circle, transparent 61%, #000 64%);
+  -webkit-mask: radial-gradient(circle, transparent 84%, #000 86%);
+  mask: radial-gradient(circle, transparent 84%, #000 86%);
 }
 html body #crosshair.reloading::after {
   content: '';
   position: absolute;
   display: block;
-  width: 26px;
-  height: 26px;
-  left: 6px;
-  top: 6px;
+  width: 24px;
+  height: 24px;
+  left: 4px;
+  top: 4px;
   background:
     linear-gradient(#edfaff, #edfaff) center / 2px 100% no-repeat,
     linear-gradient(#edfaff, #edfaff) center / 100% 2px no-repeat;
