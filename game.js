@@ -25,7 +25,7 @@ const $ = (id) => document.getElementById(id),
 const FROST_ATTACK_RANGE = 300,
   FROST_RAISE_TIME = 0.5,
   FROST_LOWER_TIME = 0.5,
-  FROST_COOLDOWN = 2.5,
+  FROST_COOLDOWN = 2.5 / 1.3,
   FROST_SLOW_DURATION = 2,
   ELITE_FIELD_RADIUS_MULTIPLIER = 4;
 let W = innerWidth,
@@ -537,7 +537,7 @@ function spawnEnemy() {
 }
 function fireFrostDart(e, p) {
   const a = Math.atan2(p.y - e.y, p.x - e.x),
-    speed = 265,
+    speed = 295,
     muzzle = e.r + 15;
   game.enemyDarts.push({
     x: e.x + Math.cos(a) * muzzle,
